@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\USER\\Desktop\\new-company11\\codecanyon-piA38fXP-business-erp-solutionproductposcompany-management\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{FDDC3FE0-13A3-4F42-A77F-40EFE62A2661}|BusinessERP\\BusinessERP.csproj|c:\\users\\user\\desktop\\new-company11\\codecanyon-pia38fxp-business-erp-solutionproductposcompany-management\\businesserp\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{FDDC3FE0-13A3-4F42-A77F-40EFE62A2661}|BusinessERP\\BusinessERP.csproj|solutionrelative:businesserp\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\new-company11\\codecanyon-piA38fXP-business-erp-solutionproductposcompany-management\\BusinessERP\\appsettings.json",
+              "RelativeDocumentMoniker": "BusinessERP\\appsettings.json",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\new-company11\\codecanyon-piA38fXP-business-erp-solutionproductposcompany-management\\BusinessERP\\appsettings.json",
+              "RelativeToolTip": "BusinessERP\\appsettings.json",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA4AAABdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-05-26T16:21:58.878Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

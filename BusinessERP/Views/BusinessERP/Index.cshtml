@@ -1,0 +1,22 @@
+<div class="wrapper" style="margin-bottom: 20%; background-color: white;">
+    <div class="row">
+        <h2 style="margin: 15px auto;text-align:center; color:#000;font-weight:bold">
+            Business ERP Solution
+        </h2>
+    </div>
+    <div>
+        @{
+            var _IsInRole = User.IsInRole("Admin");
+            if (_IsInRole)
+            {
+                <partial name="_MajorItemAccess" />
+            }
+        }
+    </div>
+</div>
+
+<script>
+    setTimeout(function () {
+        SaveMetaData();
+    }, 2000);
+</script>

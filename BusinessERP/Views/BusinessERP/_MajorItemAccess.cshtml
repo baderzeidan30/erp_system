@@ -1,0 +1,90 @@
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+
+<div class="row" style="margin-top:30px;font-size:14px">
+    <div class="col-md-2"></div>
+    <div class="col-md-2 col-sm-6 col-xs-6 text-center">
+        <a href="@Url.Action("Index", "Payment")">
+            <span class="box"><img src="/images/epos_icon/NewSale.png"></span>
+            <span><br><b>@localizer["New Sale"]</b></span>
+        </a>
+    </div>
+    <div class="col-md-2 col-sm-6 col-xs-6 text-center">
+        <a href="@Url.Action("PaymentSummaryReport", "SalesReport")">
+            <span class="box"><img src="/images/epos_icon/sales_report.png"></span>
+            <span><br><b>@localizer["Sales Report"]</b></span>
+        </a>
+    </div>
+    <div class="col-md-2 col-sm-6 col-xs-6 text-center">
+        <a href="@Url.Action("Index", "CustomerInfo")">
+            <span class="box"><img src="/images/epos_icon/customer_list.png"></span>
+            <span><br><b>@localizer["Customer List"]</b></span>
+        </a>
+    </div>
+    <div class="col-md-2 col-sm-6 col-xs-6 text-center">
+        <a href="@Url.Action("Index", "Categories")">
+            <span class="box"><img src="/images/epos_icon/check_prices.png"></span>
+            <span><br><b>@localizer["Category List"]</b></span>
+        </a>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+
+<div class="row" style="margin-top: 25px; font-size: 14px">
+    <div class="col-md-2"></div>
+    <div class="col-md-2 col-sm-6 col-xs-6 text-center">
+        <a href="@Url.Action("Index", "Items")">
+            <span class="box"><img src="/images/epos_icon/manage_stock.png"></span>
+            <span><br><b>@localizer["Manage Stock"]</b></span>
+        </a>
+    </div>
+    <div class="col-md-2 col-sm-6 col-xs-6 text-center">
+        <a href="@Url.Action("LowInStockItem", "Items")">
+            <span class="box"><img src="/images/epos_icon/low_stock1.png"></span>
+            <span><br><b>@localizer["Low Stock"]</b></span>
+        </a>
+    </div>
+    <div class="col-md-2 col-sm-6 col-xs-6 text-center">
+        <a href="@Url.Action("Index", "Supplier")">
+            <span class="box"><img src="/images/epos_icon/supplier_list.png"></span>
+            <span><br><b>@localizer["Supplier List"]</b></span>
+        </a>
+    </div>
+    <div class="col-md-2 col-sm-6 col-xs-6 text-center">
+        <a href="@Url.Action("Index", "CompanyInfo")">
+            <span class="box"><img src="/images/epos_icon/config.png"></span>
+            <span><br><b>@localizer["Config"]</b></span>
+        </a>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+
+<div class="row" style="margin-top: 25px; font-size: 14px">
+    <div class="col-md-2"></div>
+    <div class="col-md-2 col-sm-6 col-xs-6 text-center">
+        <a href="@Url.Action("PaymentSummaryReport", "SalesReport")">
+            <span class="box"><img src="/images/epos_icon/data_report.png"></span>
+            <span><br><b>@localizer["Sales Report"]</b></span>
+        </a>
+    </div>
+    <div class="col-md-2 col-sm-6 col-xs-6 text-center">
+        <a href="@Url.Action("PurchasesSummary", "PurchasesReport")">
+            <span class="box"><img src="/images/epos_icon/PurchasesReport.png"></span>
+            <span><br><b>@localizer["Purchases Report"]</b></span>
+        </a>
+    </div>
+    <div class="col-md-2 col-sm-6 col-xs-6 text-center">
+        <a href="@Url.Action("SummaryReport", "SalesReport")">
+            <span class="box"><img src="/images/epos_icon/summaryreport.png"></span>
+            <span><br><b>@localizer["Summary Report"]</b></span>
+        </a>
+    </div>
+    <div class="col-md-2 col-sm-6 col-xs-6 text-center">
+        <a href="@Url.Action("AttendanceReport", "SalesReport")">
+            <span class="box"><img src="/images/epos_icon/AttendanceReport.png"></span>
+            <span><br><b>@localizer["Attendance Report"]</b></span>
+        </a>
+    </div>
+    <div class="col-md-2"></div>
+</div>
