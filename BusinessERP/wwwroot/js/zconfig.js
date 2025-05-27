@@ -39,49 +39,26 @@ var SetFooterElements = function (divName) {
 var GetContactDetails = function () {
     var content = '';
     var _WhatsAppElement = WhatsAppElement();
-    content += '<b>After purchase you will get following items,</b> <br />'
-        + '✅ Complete Source Code <br />'
-        + '✅ Complete Database (code first) <br />'
-        + '✅ Complete Project Documentation <br />'
-        + '✅ ERD Diagram <br />'
-        + '✅ Architecture Diagram <br />'
-        + '✅ Video Tutorials <br />'
-        + '✅ Free Tech Support <br />'
-        + '💛 <a href="' + AppPurchaseURL + '" target="_blank">Purchase Now</a><br />'
-
-        + '<b>If you want to modify or add new features, you can always contact us at,</b> <br />'
-        + _WhatsAppElement + '<br />'
-        + '📢 Telegram: <a href="#" id="linkTelegram" onclick="CopyToClipboard(this)">shahed71bd</a><br />'
-        + '📢 Skype: <a href="#" id="linkSkype" onclick="CopyToClipboard(this)">shahedatomap</a><br />'
-        + '🙏 Email: <a href="#" id="linkEmail" onclick="CopyToClipboard(this)">shahedbddev@gmail.com</a><br />'
-        + '♾️ Web: <a href="https://netspeedm.com/" target="_blank">Zero Byte Solutions</a>';
+ 
 
     return content;
 }
 
 var CopyrightElement = function () {
     var elements = '';
-    elements += '<hr /><strong>Copyright &copy; 2021-2022 '
-        + '<a href="https://github.com/shahedbd" target="_blank">Zero Byte</a>. </strong>'
-        + 'All rights reserved'
-        + '<a href="https://www.youtube.com/channel/UCdHAVwuNUtfqZRFVI6qf7mg?sub_confirmation=1" target="_blank">'
-        + '<img src="/images/dashboard/scnow2.png" class="imgCustom150px" alt="User Image">'
-        + '</a>'
-        + '';
+  
     return elements;
 }
 
 var WhatsAppElement = function () {
     var elements = '';
-    elements = '<span>📲 WhatsApp: </span><a href="https://wa.me/8801674411603" target="_blank">8801674411603</a>';
+ 
     return elements;
 }
 
 var BuyNowElement = function () {
     var elements = '';
-    elements += '<a href="' + AppPurchaseURL + '" target="_blank">'
-        + '<img src="/images/dashboard/buynow.png" class="imgCustom150px" alt="User Image">'
-        + '</a>';
+ 
     return elements;
 }
 
