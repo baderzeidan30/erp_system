@@ -2392,6 +2392,94 @@ namespace BusinessERP.Migrations
                     b.ToTable("Supplier");
                 });
 
+            modelBuilder.Entity("BusinessERP.Models.Tenant", b =>
+                {
+                    b.Property<long>("TenantId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("TenantId"));
+
+                    b.Property<string>("Address1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Address2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Cancelled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CustomCssId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("EInvoiceCompanyID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EInvoiceRegistrationName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FatoraClientId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FatoraClientType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FatoraIncomeSource")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FatoraSecretKey")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FaxNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsInTrialPeriod")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("LogoId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("State")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("SubscriptionEndDateUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TenancyName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ZipCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("TenantId");
+
+                    b.ToTable("Tenant");
+                });
+
             modelBuilder.Entity("BusinessERP.Models.UnitsofMeasure", b =>
                 {
                     b.Property<long>("Id")
@@ -2567,7 +2655,12 @@ namespace BusinessERP.Migrations
                     b.Property<long>("RoleId")
                         .HasColumnType("bigint");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("UserProfileId");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("UserProfile");
                 });
@@ -2823,6 +2916,15 @@ namespace BusinessERP.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.UserProfile", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

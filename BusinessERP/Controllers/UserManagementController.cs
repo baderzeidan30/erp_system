@@ -100,6 +100,7 @@ namespace BusinessERP.Controllers
         public IActionResult AddEditUserAccount(Int64 id)
         {
             ViewBag.ddlBranch = new SelectList(_iCommon.GetCommonddlData("Branch"), "Id", "Name");
+            ViewBag.ddlTenant = new SelectList(_iCommon.GetCommonddlData("Tenant", "TenantId", "TenancyName"), "Id", "Name");
             ViewBag.ddlManageUserRoles = new SelectList(_iCommon.GetCommonddlData("ManageUserRoles"), "Id", "Name");
             UserProfileCRUDViewModel _UserProfileViewModel = new();
             if (id > 0)

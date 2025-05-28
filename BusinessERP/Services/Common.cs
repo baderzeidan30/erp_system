@@ -199,6 +199,13 @@ namespace BusinessERP.Services
             var result = _context.ItemDropdownListViewModel.FromSqlRaw(sql);
             return result;
         }
+
+        public IQueryable<ItemDropdownListViewModel> GetCommonddlData(string strTableName,string Val,string Name)
+        {
+            var sql = "select "+ Val + " Id, "+ Name + " Name from " + strTableName + " where Cancelled = 0";
+            var result = _context.ItemDropdownListViewModel.FromSqlRaw(sql);
+            return result;
+        }
         public IEnumerable<T> GetTableData<T>(Expression<Func<T, bool>> condition) where T : class
         {
             var result = _context.Set<T>().Where(condition);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace BusinessERP.Models
 {
@@ -19,5 +20,9 @@ namespace BusinessERP.Models
         public DateTime DateOfBirth { get; set; }
         public DateTime JoiningDate { get; set; }
         public DateTime LeavingDate { get; set; }
+         
+        public Int64? TenantId { get; set; }
+        public Tenant Tenant { get; set; }
+
     }
 }

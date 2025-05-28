@@ -46,6 +46,9 @@ namespace BusinessERP.Models.UserProfileViewModel
         public string IsApproverDisplay { get; set; }
         [Display(Name = "Branch"), Required]
         public Int64 BranchId { get; set; }
+
+        [Display(Name = "Tenant")]
+        public Int64 TenantId { get; set; }
         public string BranchDisplay { get; set; }
         public string CurrentURL { get; set; }
 

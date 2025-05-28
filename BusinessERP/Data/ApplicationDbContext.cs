@@ -85,5 +85,7 @@ namespace BusinessERP.Data
 
         public DbSet<ItemGridViewModel> ItemGridViewModel { get; set; }
         public DbSet<ItemDropdownListViewModel> ItemDropdownListViewModel { get; set; }
+
+        public DbSet<Tenant> Tenant { get; set; }
     }
 }

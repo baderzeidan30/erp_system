@@ -30,6 +30,7 @@ namespace BusinessERP.Services
         Task<bool> InsertLoginHistory(LoginHistory _LoginHistory, ClientInfo _ClientInfo);
         Task CurrentItemsUpdate(ItemTranViewModel _ItemTranViewModel);
         IQueryable<ItemDropdownListViewModel> GetCommonddlData(string strTableName);
+        IQueryable<ItemDropdownListViewModel> GetCommonddlData(string strTableName, string Val, string Name);
         //IEnumerable<T> GetTableData<T>() where T : class;
         IEnumerable<T> GetTableData<T>(Expression<Func<T, bool>> condition) where T : class;
         IQueryable<ItemDropdownListViewModel> LoadddlInventoryItem(bool IsVat);
