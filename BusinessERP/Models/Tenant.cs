@@ -24,7 +24,7 @@ namespace BusinessERP.Models
         public virtual Guid? LogoId { get; set; }
 
 
-        protected Tenant()
+        public Tenant()
         {
 
         }

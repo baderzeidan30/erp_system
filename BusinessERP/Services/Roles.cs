@@ -81,7 +81,7 @@ namespace BusinessERP.Services
                 await _userManager.AddToRolesAsync(_ApplicationUser, listRoles);
             }
         }
-        public async Task<MainMenuViewModel> RolebaseMenuLoad(ApplicationUser _ApplicationUser)
+        public async Task<MainMenuViewModel> RolebaseMenuLoad(ApplicationUser _ApplicationUser, Int64 userid)
         {
             MainMenuViewModel _MainMenuViewModel = new();
             var _PropertyInfo = typeof(MainMenuViewModel).GetProperties();

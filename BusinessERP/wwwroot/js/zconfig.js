@@ -71,17 +71,17 @@ var CopyToClipboard = function (Element) {
 
 var GetLoginInfoElement = function () {
     var elements = '';
-    elements += ''
-        + '<h6 class="ms-1">Login Info</h6>'
-        + '<table border="1">'
-        + '<thead><tr><th>Email/Password</th><th></th></tr></thead>'
-        + '<tbody><tr>'
-        + '<td><label id="lblEmail">admin@gmail.com</label>/<label id="lblPassword">123</label></td>'
-        + '<td><button id="btnCopy" class="btn btn-sm btn-info" onclick="GetLoginCred()">Copy</button>'
-        + '<a href="#" onclick="GetLoginCredClear()">Clear</a></td>'
-        + '</tr></tbody>'
-        + '</table>'
-        + '<hr />';
+    //elements += ''
+    //    + '<h6 class="ms-1">Login Info</h6>'
+    //    + '<table border="1">'
+    //    + '<thead><tr><th>Email/Password</th><th></th></tr></thead>'
+    //    + '<tbody><tr>'
+    //    + '<td><label id="lblEmail">admin@gmail.com</label>/<label id="lblPassword">123</label></td>'
+    //    + '<td><button id="btnCopy" class="btn btn-sm btn-info" onclick="GetLoginCred()">Copy</button>'
+    //    + '<a href="#" onclick="GetLoginCredClear()">Clear</a></td>'
+    //    + '</tr></tbody>'
+    //    + '</table>'
+    //    + '<hr />';
     return elements;
 }
 

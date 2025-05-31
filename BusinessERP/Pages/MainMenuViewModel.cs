@@ -9,6 +9,8 @@
 
         public bool Dashboard { get; set; }
         public bool UserManagement { get; set; }
+
+        public bool TenantManagement { get; set; }
         public bool UserProfile { get; set; }
         public bool ManageUserRoles { get; set; }
         public bool SystemRole { get; set; }

@@ -360,6 +360,16 @@
             public const string ControllerName = "Supplier";
             public const string ActionName = "Index";
         }
+
+        public static class Tenant
+        {
+            public const string PageName = "Manage Tenant";
+            public const string RoleName = "Tenant Management";
+            public const string Path = "/Tenant/Index";
+            public const string ControllerName = "Tenant";
+            public const string ActionName = "Index";
+        }
+
         public static class Warehouse
         {
             public const string PageName = "Manage Warehouse";

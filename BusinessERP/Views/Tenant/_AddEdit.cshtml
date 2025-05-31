@@ -1,0 +1,118 @@
+@model BusinessERP.Models.TenantViewModel.TenantCRUDViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div>
+    <form id="frmTenant">
+        <div class="row">
+            <div class="col-md-6">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="TenantId" />
+                <input type="hidden" asp-for="CreatedDate" />
+                <input type="hidden" asp-for="CreatedBy" />
+                <div class="form-group">
+                    <label asp-for="FullName" class="control-label"></label>
+                    <input asp-for="FullName" class="form-control" />
+                    <span asp-validation-for="FullName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TenancyName" class="control-label"></label>
+                    <input asp-for="TenancyName" class="form-control" />
+                    <span asp-validation-for="TenancyName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Address1" class="control-label"></label>
+                    <input asp-for="Address1" class="form-control" />
+                    <span asp-validation-for="Address1" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Address2" class="control-label"></label>
+                    <input asp-for="Address2" class="form-control" />
+ 
+                </div>
+                <div class="form-group">
+                    <label asp-for="City" class="control-label"></label>
+                    <input asp-for="City" class="form-control" />
+                    <span asp-validation-for="City" class="text-danger"></span>
+                </div>
+
+              
+                <div class="form-group">
+                    <label asp-for="EInvoiceRegistrationName" class="control-label"></label>
+                    <input asp-for="EInvoiceRegistrationName" class="form-control" />
+                    <span asp-validation-for="EInvoiceRegistrationName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="FatoraClientId" class="control-label"></label>
+                    <input asp-for="FatoraClientId" class="form-control" />
+                    <span asp-validation-for="FatoraClientId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FatoraIncomeSource" class="control-label"></label>
+                    <input asp-for="FatoraIncomeSource" class="form-control" />
+                    <span asp-validation-for="FatoraIncomeSource" class="text-danger"></span>
+                </div>
+ 
+
+            </div>
+
+            <div class="col-md-6">
+          
+                <div class="form-group">
+                    <label asp-for="State" class="control-label"></label>
+                    <input asp-for="State" class="form-control" />
+                 
+                </div>
+                <div class="form-group">
+                    <label asp-for="ZipCode" class="control-label"></label>
+                    <input asp-for="ZipCode" class="form-control" /> 
+                </div>
+                <div class="form-group">
+                    <label asp-for="PhoneNumber" class="control-label"></label>
+                    <input asp-for="PhoneNumber" class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FaxNumber" class="control-label"></label>
+                    <input asp-for="FaxNumber" class="form-control" /> 
+                </div>
+                <div class="form-group">
+                    <label asp-for="EInvoiceCompanyID" class="control-label"></label>
+                    <input asp-for="EInvoiceCompanyID" class="form-control" />
+                    <span asp-validation-for="EInvoiceCompanyID" class="text-danger"></span>
+                </div>
+
+
+                <div class="form-group">
+                    <label asp-for="FatoraSecretKey" class="control-label"></label>
+                    <input asp-for="FatoraSecretKey" class="form-control" />
+                    <span asp-validation-for="FatoraSecretKey" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FatoraClientType" class="control-label"></label>
+                    <input asp-for="FatoraClientType" class="form-control" />
+                    <span asp-validation-for="FatoraClientType" class="text-danger"></span>
+                </div>
+
+
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label"></label>
+                    <div class="col-sm-9 text-left">
+                        <input asp-for="IsInTrialPeriod" type="checkbox" id="IsInTrialPeriod" /> Trial Period
+
+                        <input asp-for="IsActive" type="checkbox" id="IsActive" />  Active
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="button" id="btnSaveTenant" value="Save" onclick="SaveTenant()" class="btn btn-info">
+                    <button type="button" id="btnCloseTenant" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>
+<script src="/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
