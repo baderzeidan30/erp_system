@@ -13,5 +13,7 @@ namespace BusinessERP.Models
         public Int64 CurrencyCode { get; set; }
         public Int64 BranchId { get; set; }
         public int Action { get; set; }
+        public Int64? TenantId { get; set; }
+        public Tenant Tenant { get; set; }
     }
 }

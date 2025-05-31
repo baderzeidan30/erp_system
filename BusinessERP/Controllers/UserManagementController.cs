@@ -79,7 +79,7 @@ namespace BusinessERP.Controllers
 
                 resultTotal = _AccountUser.Count();
 
-                var result = _AccountUser.Skip(skip).Take(pageSize).ToList();
+                var result = _AccountUser.Skip(skip).Take(pageSize).Include(f => f.Tenant).ToList();
                 return Json(new { draw = draw, recordsFiltered = resultTotal, recordsTotal = resultTotal, data = result });
 
             }

@@ -16,5 +16,7 @@ namespace BusinessERP.Models
         public double? ItemDiscountAmount { get; set; }
         public double? TotalAmount { get; set; }
         public bool IsReturn { get; set; }
+        public Int64? TenantId { get; set; }
+        public Tenant Tenant { get; set; }
     }
 }

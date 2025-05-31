@@ -183,7 +183,7 @@ var PreparedFormObj = function () {
     _FormData.append('DateOfBirth', $("#DateOfBirth").val())
     _FormData.append('JoiningDate', $("#JoiningDate").val())
     _FormData.append('LeavingDate', $("#LeavingDate").val())
-
+    _FormData.append('TenantId', $("#TenantId").val())
     _FormData.append('CurrentURL', $("#CurrentURL").val())
     return _FormData;
 }

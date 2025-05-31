@@ -10,5 +10,7 @@ namespace BusinessERP.Models
         public Int64 CustomerId { get; set; }
         public string TranType { get; set; }
         public string Note { get; set; }
+        public Int64? TenantId { get; set; }
+        public Tenant Tenant { get; set; }
     }
 }

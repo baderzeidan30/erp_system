@@ -28,6 +28,13 @@
         "columns": [
             {
                 data: "UserProfileId", "name": "UserProfileId", render: function (data, type, row) {
+                    debugger;
+
+                    return row.Tenant!=null? row.Tenant.TenancyName:"";
+                }
+            },
+            {
+                data: "UserProfileId", "name": "UserProfileId", render: function (data, type, row) {
                     return "<a href='#' class='fa fa-eye' onclick=ViewUserDetails('" + row.UserProfileId + "');>" + row.UserProfileId + "</a>";
                 }
             },

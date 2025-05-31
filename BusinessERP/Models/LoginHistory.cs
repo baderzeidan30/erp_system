@@ -17,5 +17,7 @@ namespace BusinessERP.Models
         public string Device { get; set; }
         public string Action { get; set; }
         public string ActionStatus { get; set; }
+        public Int64? TenantId { get; set; }
+        public Tenant Tenant { get; set; }
     }
 }

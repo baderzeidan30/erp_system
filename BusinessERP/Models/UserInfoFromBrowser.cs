@@ -20,5 +20,7 @@ namespace BusinessERP.Models
         public string OSName { get; set; }
         public string OSVersion { get; set; }
         public string UA { get; set; }
+        public Int64? TenantId { get; set; }
+        public Tenant Tenant { get; set; }
     }
 }

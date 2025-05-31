@@ -78,20 +78,32 @@ namespace BusinessERP.Controllers
             {
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: true);
+
                 string _AlertMessage = "User logged in.";
                 if (result.Succeeded)
                 {
-                    HttpContext.Session.SetString("LoginUserName", model.Email);
-                    var _CompanyInfo = await _context.CompanyInfo.FirstOrDefaultAsync(m => m.Id == 1);
-                    _JsonResultViewModel.ModelObject = _CompanyInfo;
-
-                    HttpContext.Session.SetString("LoginUserName", model.Email);
                     ApplicationUserViewModel _ApplicationUser = await _context.ApplicationUser.Where(x => x.Email == model.Email).FirstOrDefaultAsync();
-                    _JsonResultViewModel.ModelObject = _ApplicationUser;
-                    _JsonResultViewModel.AlertMessage = _AlertMessage;
+                    UserProfile _UserProfile = await _context.UserProfile.Where(x => x.ApplicationUserId == _ApplicationUser.Id).Include(h => h.Tenant).FirstOrDefaultAsync();
+                    var UserTenancyName = _UserProfile.Tenant?.TenancyName ?? "";
+                    if (UserTenancyName != (model.TenancyName ?? ""))
+                    {
+                        _JsonResultViewModel.AlertMessage = "Invalid login attempt.";
+                    }
+                    else
+                    {
+                        _JsonResultViewModel.ModelObject = _ApplicationUser;
+                        HttpContext.Session.SetString("LoginUserName", model.Email);
+                        var _CompanyInfo = await _context.CompanyInfo.FirstOrDefaultAsync(m => m.Id == 1);
+                        _JsonResultViewModel.ModelObject = _CompanyInfo;
 
-                    _logger.LogInformation(_AlertMessage);
-                    await InserLoginHistory(true, result.Succeeded, model);
+                        HttpContext.Session.SetString("LoginUserName", model.Email);
+                        _JsonResultViewModel.AlertMessage = _AlertMessage;
+
+                        _logger.LogInformation(_AlertMessage);
+                        await InserLoginHistory(true, result.Succeeded, model);
+                        _logger.LogInformation(_AlertMessage);
+                        _JsonResultViewModel.IsSuccess = result.Succeeded;
+                    }
                 }
                 else if (result.RequiresTwoFactor)
                 {
@@ -102,8 +114,7 @@ namespace BusinessERP.Controllers
                     _JsonResultViewModel.AlertMessage = "Invalid login attempt.";
                 }
 
-                _logger.LogInformation(_AlertMessage);
-                _JsonResultViewModel.IsSuccess = result.Succeeded;
+
                 return new JsonResult(_JsonResultViewModel);
             }
             catch (Exception ex)

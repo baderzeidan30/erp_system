@@ -17,5 +17,7 @@ namespace BusinessERP.Models
         public string Phone { get; set; }
         public string Email { get; set; }
         public string Address { get; set; }
+        public Int64? TenantId { get; set; }
+        public Tenant Tenant { get; set; }
     }
 }

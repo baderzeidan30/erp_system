@@ -36,5 +36,7 @@ namespace BusinessERP.Models
         public double VatPercentage { get; set; }      
         public string ImageURL { get; set; }
         public int Size { get; set; }
+        public Int64? TenantId { get; set; }
+        public Tenant Tenant { get; set; }
     }
 }

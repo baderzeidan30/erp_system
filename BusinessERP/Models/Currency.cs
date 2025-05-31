@@ -11,5 +11,7 @@ namespace BusinessERP.Models
         public string Country { get; set; }
         public string Description { get; set; }
         public bool IsDefault { get; set; }
+        public Int64? TenantId { get; set; }
+        public Tenant Tenant { get; set; }
     }
 }

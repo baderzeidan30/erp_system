@@ -34,5 +34,7 @@ namespace BusinessERP.Models
         public Int64 CurrencyId { get; set; }
         public Int64 ItemVatPercentageId { get; set; }
         public Int64 DefaultSMTPId { get; set; }
+        public Int64? TenantId { get; set; }
+        public Tenant Tenant { get; set; }
     }
 }

@@ -11,5 +11,7 @@ namespace BusinessERP.Models
         public int SendQuantity { get; set; }
         public string Message { get; set; }
         public bool IsRead { get; set; }
+        public Int64? TenantId { get; set; }
+        public Tenant Tenant { get; set; }
     }
 }

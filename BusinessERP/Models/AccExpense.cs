@@ -10,5 +10,7 @@ namespace BusinessERP.Models
         public DateTime ExpenseDate { get; set; }
         public double Amount { get; set; }
         public string Note { get; set; }
+        public Int64? TenantId { get; set; }
+        public Tenant Tenant { get; set; }
     }
 }

@@ -12,5 +12,7 @@ namespace BusinessERP.Models
         public bool SSLEnabled { get; set; }
         public string SenderFullName { get; set; }
         public bool IsDefault { get; set; }
+        public Int64? TenantId { get; set; }
+        public Tenant Tenant { get; set; }
     }
 }

@@ -16,5 +16,7 @@ namespace BusinessERP.Models
         public string AddressPostcode { get; set; }
         public string BillingAddress { get; set; }
         public string BillingAddressPostcode { get; set; }
+        public Int64? TenantId { get; set; }
+        public Tenant Tenant { get; set; }
     }
 }

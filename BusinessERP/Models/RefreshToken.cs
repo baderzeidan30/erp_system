@@ -12,7 +12,8 @@ namespace BusinessERP.Models
         public bool IsRevorked { get; set; }
         public DateTime AddedDate { get; set; }
         public DateTime ExpiryDate { get; set; }
-
+        public Int64? TenantId { get; set; }
+        public Tenant Tenant { get; set; }
         //[ForeignKey(nameof(UserId))]
         //public IdentityUser User {get;set;}
     }

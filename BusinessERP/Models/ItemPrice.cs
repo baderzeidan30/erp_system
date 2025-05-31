@@ -10,5 +10,7 @@ namespace BusinessERP.Models
         public double TradePrice { get; set; }
         public double PremiumPrice { get; set; }
         public double OtherPrice { get; set; }
+        public Int64? TenantId { get; set; }
+        public Tenant Tenant { get; set; }
     }
 }

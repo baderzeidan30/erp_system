@@ -28,5 +28,7 @@
         public string LogoutPath { get; set; }
         public string AccessDeniedPath { get; set; }
         public bool SlidingExpiration { get; set; }
+        public Int64? TenantId { get; set; }
+        public Tenant Tenant { get; set; }
     }
 }

@@ -63,7 +63,12 @@ namespace BusinessERP.Migrations
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("AccAccount");
                 });
@@ -103,7 +108,12 @@ namespace BusinessERP.Migrations
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("AccDeposit");
                 });
@@ -146,7 +156,12 @@ namespace BusinessERP.Migrations
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("AccExpense");
                 });
@@ -192,10 +207,15 @@ namespace BusinessERP.Migrations
                     b.Property<string>("Reference")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Type")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("AccTransaction");
                 });
@@ -235,10 +255,15 @@ namespace BusinessERP.Migrations
                     b.Property<long>("SenderId")
                         .HasColumnType("bigint");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTime>("TransferDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("AccTransfer");
                 });
@@ -343,7 +368,12 @@ namespace BusinessERP.Migrations
                     b.Property<TimeSpan>("StayTime")
                         .HasColumnType("time");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("Attendance");
                 });
@@ -374,6 +404,9 @@ namespace BusinessERP.Migrations
                     b.Property<string>("TableName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Type")
                         .HasColumnType("nvarchar(max)");
 
@@ -381,6 +414,8 @@ namespace BusinessERP.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("AuditLogs");
                 });
@@ -423,7 +458,12 @@ namespace BusinessERP.Migrations
                     b.Property<string>("ShortDescription")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("Branch");
                 });
@@ -457,7 +497,12 @@ namespace BusinessERP.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("Categories");
                 });
@@ -568,6 +613,9 @@ namespace BusinessERP.Migrations
                     b.Property<string>("StreetName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("TermsAndCondition")
                         .HasColumnType("nvarchar(max)");
 
@@ -584,6 +632,8 @@ namespace BusinessERP.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("CompanyInfo");
                 });
@@ -629,7 +679,12 @@ namespace BusinessERP.Migrations
                     b.Property<string>("Symbol")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("Currency");
                 });
@@ -687,10 +742,15 @@ namespace BusinessERP.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.Property<long>("Type")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("CustomerInfo");
                 });
@@ -724,7 +784,12 @@ namespace BusinessERP.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("CustomerType");
                 });
@@ -758,10 +823,15 @@ namespace BusinessERP.Migrations
                     b.Property<string>("ReasonOfDamage")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.Property<int>("TotalDamageItem")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("DamageItemDeatils");
                 });
@@ -840,10 +910,15 @@ namespace BusinessERP.Migrations
                     b.Property<bool>("SlidingExpiration")
                         .HasColumnType("bit");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.Property<bool>("UserRequireUniqueEmail")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("DefaultIdentityOptions");
                 });
@@ -877,7 +952,12 @@ namespace BusinessERP.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("Department");
                 });
@@ -911,7 +991,12 @@ namespace BusinessERP.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("Designation");
                 });
@@ -960,7 +1045,12 @@ namespace BusinessERP.Migrations
                     b.Property<string>("SenderFullName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("EmailConfig");
                 });
@@ -1024,7 +1114,12 @@ namespace BusinessERP.Migrations
                     b.Property<int?>("SubDepartment")
                         .HasColumnType("int");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("Employee");
                 });
@@ -1067,6 +1162,9 @@ namespace BusinessERP.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.Property<double>("TotalPrice")
                         .HasColumnType("float");
 
@@ -1074,6 +1172,8 @@ namespace BusinessERP.Migrations
                         .HasColumnType("float");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("ExpenseDetails");
                 });
@@ -1122,10 +1222,15 @@ namespace BusinessERP.Migrations
                     b.Property<double>("PaidAmount")
                         .HasColumnType("float");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("ExpenseSummary");
                 });
@@ -1159,7 +1264,12 @@ namespace BusinessERP.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("ExpenseType");
                 });
@@ -1193,7 +1303,12 @@ namespace BusinessERP.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("IncomeCategory");
                 });
@@ -1233,6 +1348,9 @@ namespace BusinessERP.Migrations
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
@@ -1240,6 +1358,8 @@ namespace BusinessERP.Migrations
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("IncomeSummary");
                 });
@@ -1273,7 +1393,12 @@ namespace BusinessERP.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("IncomeType");
                 });
@@ -1316,7 +1441,12 @@ namespace BusinessERP.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("ItemRequest");
                 });
@@ -1353,7 +1483,12 @@ namespace BusinessERP.Migrations
                     b.Property<string>("SerialNumber")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("ItemSerialNumber");
                 });
@@ -1393,6 +1528,9 @@ namespace BusinessERP.Migrations
                     b.Property<string>("ReasonOfTransfer")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.Property<long>("ToWarehouseId")
                         .HasColumnType("bigint");
 
@@ -1400,6 +1538,8 @@ namespace BusinessERP.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("ItemTransferLog");
                 });
@@ -1502,6 +1642,9 @@ namespace BusinessERP.Migrations
                     b.Property<long?>("SupplierId")
                         .HasColumnType("bigint");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.Property<double?>("TradePrice")
                         .HasColumnType("float");
 
@@ -1521,6 +1664,8 @@ namespace BusinessERP.Migrations
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("Items");
                 });
@@ -1572,10 +1717,15 @@ namespace BusinessERP.Migrations
                     b.Property<double>("OldUnitPrice")
                         .HasColumnType("float");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.Property<int>("TranQuantity")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("ItemsHistory");
                 });
@@ -1680,10 +1830,15 @@ namespace BusinessERP.Migrations
                     b.Property<string>("PublicIP")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("LoginHistory");
                 });
@@ -1717,7 +1872,12 @@ namespace BusinessERP.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("ManageUserRoles");
                 });
@@ -1757,7 +1917,12 @@ namespace BusinessERP.Migrations
                     b.Property<string>("RoleName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("ManageUserRolesDetails");
                 });
@@ -1845,6 +2010,9 @@ namespace BusinessERP.Migrations
                     b.Property<double>("SubTotal")
                         .HasColumnType("float");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.Property<double>("VAT")
                         .HasColumnType("float");
 
@@ -1852,6 +2020,8 @@ namespace BusinessERP.Migrations
                         .HasColumnType("float");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("Payment");
                 });
@@ -1906,6 +2076,9 @@ namespace BusinessERP.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.Property<double?>("TotalAmount")
                         .HasColumnType("float");
 
@@ -1913,6 +2086,8 @@ namespace BusinessERP.Migrations
                         .HasColumnType("float");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("PaymentDetail");
                 });
@@ -1955,7 +2130,12 @@ namespace BusinessERP.Migrations
                     b.Property<string>("ReferenceNo")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("PaymentModeHistory");
                 });
@@ -1989,7 +2169,12 @@ namespace BusinessERP.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("PaymentStatus");
                 });
@@ -2023,7 +2208,12 @@ namespace BusinessERP.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("PaymentType");
                 });
@@ -2108,6 +2298,9 @@ namespace BusinessERP.Migrations
                     b.Property<long>("SupplierId")
                         .HasColumnType("bigint");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.Property<double>("VAT")
                         .HasColumnType("float");
 
@@ -2115,6 +2308,8 @@ namespace BusinessERP.Migrations
                         .HasColumnType("float");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("PurchasesPayment");
                 });
@@ -2169,6 +2364,9 @@ namespace BusinessERP.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.Property<double?>("TotalAmount")
                         .HasColumnType("float");
 
@@ -2176,6 +2374,8 @@ namespace BusinessERP.Migrations
                         .HasColumnType("float");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("PurchasesPaymentDetail");
                 });
@@ -2218,6 +2418,9 @@ namespace BusinessERP.Migrations
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Token")
                         .HasColumnType("nvarchar(max)");
 
@@ -2225,6 +2428,8 @@ namespace BusinessERP.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("RefreshToken");
                 });
@@ -2264,10 +2469,15 @@ namespace BusinessERP.Migrations
                     b.Property<long>("RefId")
                         .HasColumnType("bigint");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("TranType")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("ReturnLog");
                 });
@@ -2307,7 +2517,12 @@ namespace BusinessERP.Migrations
                     b.Property<string>("SenderEmail")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("SendEmailHistory");
                 });
@@ -2344,7 +2559,12 @@ namespace BusinessERP.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("SubDepartment");
                 });
@@ -2387,7 +2607,12 @@ namespace BusinessERP.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("Supplier");
                 });
@@ -2509,7 +2734,12 @@ namespace BusinessERP.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("UnitsofMeasure");
                 });
@@ -2579,6 +2809,9 @@ namespace BusinessERP.Migrations
                     b.Property<string>("OSVersion")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("TimeZone")
                         .HasColumnType("nvarchar(max)");
 
@@ -2586,6 +2819,8 @@ namespace BusinessERP.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("UserInfoFromBrowser");
                 });
@@ -2697,7 +2932,12 @@ namespace BusinessERP.Migrations
                     b.Property<double>("Percentage")
                         .HasColumnType("float");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("VatPercentage");
                 });
@@ -2731,7 +2971,12 @@ namespace BusinessERP.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("Warehouse");
                 });
@@ -2777,10 +3022,15 @@ namespace BusinessERP.Migrations
                     b.Property<int>("SendQuantity")
                         .HasColumnType("int");
 
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
                     b.Property<long>("ToWarehouseId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("WarehouseNotification");
                 });
@@ -2918,7 +3168,457 @@ namespace BusinessERP.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("BusinessERP.Models.AccAccount", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.AccDeposit", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.AccExpense", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.AccTransaction", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.AccTransfer", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.Attendance", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.AuditLogs", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.Branch", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.Categories", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.CompanyInfo", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.Currency", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.CustomerInfo", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.CustomerType", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.DamageItemDeatils", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.DefaultIdentityOptions", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.Department", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.Designation", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.EmailConfig", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.Employee", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.ExpenseDetails", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.ExpenseSummary", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.ExpenseType", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.IncomeCategory", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.IncomeSummary", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.IncomeType", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.ItemRequest", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.ItemSerialNumber", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.ItemTransferLog", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.Items", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.ItemsHistory", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.LoginHistory", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.ManageUserRoles", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.ManageUserRolesDetails", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.Payment", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.PaymentDetail", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.PaymentModeHistory", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.PaymentStatus", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.PaymentType", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.PurchasesPayment", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.PurchasesPaymentDetail", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.RefreshToken", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.ReturnLog", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.SendEmailHistory", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.SubDepartment", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.Supplier", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.UnitsofMeasure", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.UserInfoFromBrowser", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
             modelBuilder.Entity("BusinessERP.Models.UserProfile", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.VatPercentage", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.Warehouse", b =>
+                {
+                    b.HasOne("BusinessERP.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("BusinessERP.Models.WarehouseNotification", b =>
                 {
                     b.HasOne("BusinessERP.Models.Tenant", "Tenant")
                         .WithMany()

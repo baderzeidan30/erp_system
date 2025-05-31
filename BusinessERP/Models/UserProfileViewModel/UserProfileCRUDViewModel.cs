@@ -48,7 +48,7 @@ namespace BusinessERP.Models.UserProfileViewModel
         public Int64 BranchId { get; set; }
 
         [Display(Name = "Tenant")]
-        public Int64 TenantId { get; set; }
+        public Int64? TenantId { get; set; }
         public string BranchDisplay { get; set; }
         public string CurrentURL { get; set; }
 
@@ -68,6 +68,7 @@ namespace BusinessERP.Models.UserProfileViewModel
                 Country = vm.Country,
                 ProfilePicture = vm.ProfilePicture,
                 BranchId = vm.BranchId,
+                TenantId = vm.TenantId??0,
                 RoleId = vm.RoleId,
                 DateOfBirth = vm.DateOfBirth,
                 JoiningDate = vm.JoiningDate,
@@ -96,6 +97,7 @@ namespace BusinessERP.Models.UserProfileViewModel
                 Country = vm.Country,
                 ProfilePicture = vm.ProfilePicture,
                 BranchId = vm.BranchId,
+                TenantId = vm.TenantId,
                 RoleId = vm.RoleId,
                 DateOfBirth = vm.DateOfBirth,
                 JoiningDate = vm.JoiningDate,

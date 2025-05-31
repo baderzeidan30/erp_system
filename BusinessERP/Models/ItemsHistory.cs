@@ -14,5 +14,7 @@ namespace BusinessERP.Models
         public int NewQuantity { get; set; }
         public int TranQuantity { get; set; }
         public string Action { get; set; }
+        public Int64? TenantId { get; set; }
+        public Tenant Tenant { get; set; }
     }
 }

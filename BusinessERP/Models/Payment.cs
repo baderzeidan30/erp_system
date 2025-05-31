@@ -27,5 +27,7 @@ namespace BusinessERP.Models
         public string PrivateNote { get; set; }
         public int ReturnType { get; set; }
         public string ReferenceNumber { get; set; }
+        public Int64? TenantId { get; set; }
+        public Tenant Tenant { get; set; }
     }
 }

@@ -11,5 +11,7 @@ namespace BusinessERP.Models
         public Int64? FromWarehouseId { get; set; }
         public Int64 ToWarehouseId { get; set; }
         public string ReasonOfTransfer { get; set; }
+        public Int64? TenantId { get; set; }
+        public Tenant Tenant { get; set; }
     }
 }
