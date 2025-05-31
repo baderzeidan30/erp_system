@@ -2,7 +2,7 @@
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <a href="@Url.Action("Index", "Dashboard")" class="brand-link">        
+    <a href="@Url.Action("Index", "Dashboard")" class="brand-link">
         <img src='~/images/apple-touch-icon.png' alt="Business ERP Logo" id="imgBusinessERPLogo_AdminSidebar" class="brand-image img-circle elevation-3">
         <span class="brand-text font-weight-light">@localizer["Business ERP"]</span>
     </a>
@@ -500,7 +500,7 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
-                   @*          @if (Model.MainMenuViewModel.CompanyInfo)
+                            @*          @if (Model.MainMenuViewModel.CompanyInfo)
                             {
                                 <li class="nav-item">
                                     <a href="@MainMenu.CompanyInfo.Path" class="nav-link">
@@ -595,6 +595,30 @@
                         </ul>
                     </li>
                 }
+
+                @if (Model.MainMenuViewModel.TenantManagement)
+                {
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link active">
+                            <img src="/images/side_menu/usersettings.png" class="img-circle elevation-2" alt="User Image">
+                            <p>
+                                @localizer["Manage Tenant"]
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+
+                            <li class="nav-item">
+                                <a href="@MainMenu.Tenant.Path" class="nav-link">
+                                    <i class="nav-icon fas fa-user-shield"></i>
+                                    <p>@localizer[@MainMenu.Tenant.PageName]</p>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+                }
+
                 @if (Model.MainMenuViewModel.UserManagement)
                 {
                     <li class="nav-item has-treeview">
@@ -687,7 +711,7 @@
                     </li>
                 }
 
-               @*  @if (Model.MainMenuViewModel.Employee)
+                @*  @if (Model.MainMenuViewModel.Employee)
                 {
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link active">
@@ -746,9 +770,9 @@
                         </ul>
                     </li>
                 }
-   *@           
+   *@
 
-   @if (Model.MainMenuViewModel.ItemReport)
+                @if (Model.MainMenuViewModel.ItemReport)
                 {
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link active" style="background-color: rgb(73, 69, 73);">
