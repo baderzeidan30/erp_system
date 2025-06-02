@@ -3,6 +3,7 @@ using BusinessERP.Data;
 using BusinessERP.Helpers;
 using BusinessERP.Models.CommonViewModel;
 using BusinessERP.Models.EmailConfigViewModel;
+using BusinessERP.Models.ReturnLogViewModel;
 using BusinessERP.Models.SendEmailHistoryViewModel;
 using BusinessERP.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -20,13 +21,16 @@ namespace BusinessERP.Controllers
         private readonly ISalesService _iSalesService;
         private readonly IPaymentService _iDBOperation;
         private readonly IEmailSender _emailSender;
-        public PaymentShareController(ApplicationDbContext context, ICommon iCommon, IPaymentService iPaymentService, ISalesService iSalesService, IEmailSender emailSender)
+        private readonly IFunctional _iFunctional;
+
+        public PaymentShareController(ApplicationDbContext context, ICommon iCommon, IPaymentService iPaymentService, ISalesService iSalesService, IEmailSender emailSender, IFunctional iFunctional)
         {
             _context = context;
             _iCommon = iCommon;
             _iSalesService = iSalesService;
             _iDBOperation = iPaymentService;
             _emailSender = emailSender;
+            _iFunctional = iFunctional;
         }
 
         [Authorize(Roles = Pages.MainMenu.Invoice.RoleName)]
@@ -92,6 +96,9 @@ namespace BusinessERP.Controllers
                     _SendEmailHistoryCRUDViewModel.Result = "Failed, status: " + result.Status;
                 }
 
+                var objUser = _iFunctional.GetSharedTenantData(User).Result;
+                _SendEmailHistoryCRUDViewModel.TenantId = objUser.TenantId ?? 0;
+
                 await _iDBOperation.AddSendEmailHistory(_SendEmailHistoryCRUDViewModel);
                 return new JsonResult(_JsonResultViewModel);
             }
@@ -101,6 +108,8 @@ namespace BusinessERP.Controllers
                 _JsonResultViewModel.IsSuccess = false;
                 _JsonResultViewModel.AlertMessage = ex.Message;
                 _SendEmailHistoryCRUDViewModel.Result = "Failed, status: " + ex.Message;
+                var objUser = _iFunctional.GetSharedTenantData(User).Result;
+                _SendEmailHistoryCRUDViewModel.TenantId = objUser.TenantId ?? 0;
                 await _iDBOperation.AddSendEmailHistory(_SendEmailHistoryCRUDViewModel);
                 return new JsonResult(_JsonResultViewModel);
                 throw;

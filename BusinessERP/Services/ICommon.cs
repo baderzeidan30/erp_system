@@ -51,8 +51,8 @@ namespace BusinessERP.Services
         Task<ItemsHistoryCRUDViewModel> AddItemHistory(ItemsHistoryCRUDViewModel vm);
         ItemsCRUDViewModel GetViewItemById(Int64 Id);
         IQueryable<ItemCartViewModel> GetAllCartItem();
-        IQueryable<List<ItemCartViewModel>> GetAllCartItemForCustomDT();
-        IQueryable<List<ItemCartViewModel>> GetItemCartDataList();
+        IQueryable<List<ItemCartViewModel>> GetAllCartItemForCustomDT(Int64 tenantId);
+        IQueryable<List<ItemCartViewModel>> GetItemCartDataList(Int64 tenantId);
         IQueryable<AttendanceCRUDViewModel> GetAttendanceReportData();
         IQueryable<ItemGridViewModel> GetJoinDataItemsAndTranDetails();
         string GenerateDemoSales();
@@ -66,11 +66,11 @@ namespace BusinessERP.Services
         IQueryable<ItemDropdownListViewModel> GetddlCustomerEmail();
         IQueryable<ItemDropdownListViewModel> GetddlCustomerType();
         IQueryable<ItemDropdownListViewModel> GetddlPaymentStatus();
-        IQueryable<CustomerInfoCRUDViewModel> GetCustomerList();
+        IQueryable<CustomerInfoCRUDViewModel> GetCustomerList(Int64 tenantId);
         IQueryable<EmployeeCRUDViewModel> GetEmployeeGridList();
         IQueryable<EmployeeCRUDViewModel> GetEmployeeList();
         IQueryable<ExpenseDetailsCRUDViewModel> GetExpenseDetailsList();
-        IQueryable<ExpenseSummaryCRUDViewModel> GetExpenseSummaryGridItem();
+        IQueryable<ExpenseSummaryCRUDViewModel> GetExpenseSummaryGridItem(Int64 tenantId);
         Task<Int64> GetBranchIdByUserName(string _UserName);
         Task<List<ManageUserRolesViewModel>> GetManageRoleDetailsList(Int64 id);
         IQueryable<UserProfileCRUDViewModel> GetUserProfileDetails();

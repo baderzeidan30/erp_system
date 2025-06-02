@@ -18,12 +18,13 @@ namespace BusinessERP.Controllers
         private readonly ApplicationDbContext _context;
         private readonly ICommon _iCommon;
         private readonly ISalesService _iSalesService;
-
-        public CustomerInfoController(ApplicationDbContext context, ICommon iCommon, ISalesService iSalesService)
+        private readonly IFunctional _iFunctional;
+        public CustomerInfoController(ApplicationDbContext context, ICommon iCommon, ISalesService iSalesService, IFunctional iFunctional)
         {
             _context = context;
             _iCommon = iCommon;
             _iSalesService = iSalesService;
+            _iFunctional = iFunctional;
         }
 
         [Authorize(Roles = Pages.MainMenu.CustomerInfo.RoleName)]
@@ -50,7 +51,9 @@ namespace BusinessERP.Controllers
                 int skip = start != null ? Convert.ToInt32(start) : 0;
                 int resultTotal = 0;
 
-                var _GetGridItem = _iCommon.GetCustomerList();
+                var objUser = _iFunctional.GetSharedTenantData(User).Result;
+                Int64 LoginTenantId = objUser.TenantId ?? 0;
+                var _GetGridItem = _iCommon.GetCustomerList(LoginTenantId);
                 //Sorting
                 if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnAscDesc)))
                 {
@@ -84,7 +87,9 @@ namespace BusinessERP.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(Int64 id)
         {
-            CustomerInfoCRUDViewModel vm = await _iCommon.GetCustomerList().Where(x => x.Id == id).FirstOrDefaultAsync();
+            var objUser = _iFunctional.GetSharedTenantData(User).Result;
+            Int64 LoginTenantId = objUser.TenantId ?? 0;
+            CustomerInfoCRUDViewModel vm = await _iCommon.GetCustomerList(LoginTenantId).Where(x => x.Id == id).FirstOrDefaultAsync();
             if (vm == null) return NotFound();
             return PartialView("_Details", vm);
         }
@@ -92,7 +97,9 @@ namespace BusinessERP.Controllers
         public IActionResult CustomerTranHistory(long? id)
         {
             if (id == null) return NotFound();
-            var result = _iSalesService.GetPaymentGridData().Where(x => x.CustomerId == id);
+            var objUser = _iFunctional.GetSharedTenantData(User).Result;
+            Int64 LoginTenantId = objUser.TenantId ?? 0;
+            var result = _iSalesService.GetPaymentGridData(LoginTenantId).Where(x => x.CustomerId == id);
             if (result == null) return NotFound();
             return PartialView("_CustomerTranHistory", result);
         }
@@ -109,6 +116,9 @@ namespace BusinessERP.Controllers
         public async Task<IActionResult> AddEdit(CustomerInfoCRUDViewModel vm)
         {
             JsonResultViewModel _JsonResultViewModel = new();
+
+            var objUser = _iFunctional.GetSharedTenantData(User).Result;
+            Int64 LoginTenantId = objUser.TenantId ?? 0;
             try
             {
                 if (vm.UseThisAsBillingAddress)
@@ -127,6 +137,7 @@ namespace BusinessERP.Controllers
                     vm.ModifiedDate = DateTime.Now;
                     vm.ModifiedBy = HttpContext.User.Identity.Name;
                     _context.Entry(_CustomerInfoInfo).CurrentValues.SetValues(vm);
+                    if (LoginTenantId > 0) _CustomerInfoInfo.TenantId = LoginTenantId;
                     await _context.SaveChangesAsync();
 
                     _JsonResultViewModel.Id = _CustomerInfoInfo.Id;
@@ -157,6 +168,7 @@ namespace BusinessERP.Controllers
                     _CustomerInfoInfo.ModifiedDate = DateTime.Now;
                     _CustomerInfoInfo.CreatedBy = HttpContext.User.Identity.Name;
                     _CustomerInfoInfo.ModifiedBy = HttpContext.User.Identity.Name;
+                    if (LoginTenantId > 0) _CustomerInfoInfo.TenantId = LoginTenantId;
                     _context.Add(_CustomerInfoInfo);
                     await _context.SaveChangesAsync();
 

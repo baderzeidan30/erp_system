@@ -27,13 +27,15 @@ namespace BusinessERP.Controllers
         private readonly IPurchaseService _iPurchaseService;
         private string _StartDate = null;
         private string _EndDate = null;
+        private readonly IFunctional _iFunctional;
 
-        public PurchasesPaymentController(ApplicationDbContext context, ICommon iCommon, IPaymentService iPaymentService, IPurchaseService iPurchaseService)
+        public PurchasesPaymentController(ApplicationDbContext context, ICommon iCommon, IPaymentService iPaymentService, IPurchaseService iPurchaseService, IFunctional iFunctional)
         {
             _context = context;
             _iCommon = iCommon;
             _iPaymentService = iPaymentService;
             _iPurchaseService = iPurchaseService;
+            _iFunctional = iFunctional;
         }
 
         [Authorize(Roles = Pages.MainMenu.PurchasesPayment.RoleName)]
@@ -76,16 +78,17 @@ namespace BusinessERP.Controllers
                 int pageSize = length != null ? Convert.ToInt32(length) : 0;
                 int skip = start != null ? Convert.ToInt32(start) : 0;
                 int resultTotal = 0;
-
+                var objUser = _iFunctional.GetSharedTenantData(User).Result;
+                Int64 LoginTenantId = objUser.TenantId ?? 0;
 
                 IQueryable<PurchasesPaymentCRUDViewModel> _GetGridItem = null;
                 if (_StartDate != null && _EndDate != null && _StartDate != "" && _EndDate != "")
                 {
-                    _GetGridItem = _iPurchaseService.GetPurchasesPaymentGridData().Where(x => x.Category == InvoiceType.RegularInvoice && x.CreatedDate >= Convert.ToDateTime(_StartDate) && x.CreatedDate <= Convert.ToDateTime(_EndDate).AddDays(1));
+                    _GetGridItem = _iPurchaseService.GetPurchasesPaymentGridData(LoginTenantId).Where(x => x.Category == InvoiceType.RegularInvoice && x.CreatedDate >= Convert.ToDateTime(_StartDate) && x.CreatedDate <= Convert.ToDateTime(_EndDate).AddDays(1));
                 }
                 else
                 {
-                    _GetGridItem = _iPurchaseService.GetPurchasesPaymentGridData().Where(x => x.Category == InvoiceType.RegularInvoice);
+                    _GetGridItem = _iPurchaseService.GetPurchasesPaymentGridData(LoginTenantId).Where(x => x.Category == InvoiceType.RegularInvoice);
                 }
 
 
@@ -241,6 +244,9 @@ namespace BusinessERP.Controllers
                     vm.InvoiceNo = null;
                 }
 
+                var objUser = _iFunctional.GetSharedTenantData(User).Result;
+                vm.TenantId = objUser.TenantId ?? 0;
+          
                 var result = await _iPaymentService.UpdatePurchasesPayment(vm);
                 _JsonResultViewModel.CurrentURL = vm.CurrentURL;
                 _JsonResultViewModel.IsSuccess = true;
@@ -279,14 +285,16 @@ namespace BusinessERP.Controllers
             var _PurchasesPayment = _context.PurchasesPayment.Where(x => x.Id == _PurchasesPaymentCRUDViewModel.Id).FirstOrDefault();
             _PurchasesPaymentCRUDViewModel.Category = _PurchasesPayment.Category;
             vm.PurchasesPaymentCRUDViewModel = await _iPaymentService.UpdatePurchasesPayment(_PurchasesPaymentCRUDViewModel);
-
+            var objUser = _iFunctional.GetSharedTenantData(User).Result;
+            Int64 LoginTenantId = objUser.TenantId ?? 0;
             ItemTranViewModel _ItemTranViewModel = new ItemTranViewModel
             {
                 ItemId = vm.ItemId,
                 IsAddition = true,
                 TranQuantity = vm.Quantity,
                 ActionMessage = "Add new Purchases, Supplier ID: " + vm.PurchasesPaymentCRUDViewModel.SupplierId,
-                CurrentUserName = HttpContext.User.Identity.Name
+                CurrentUserName = HttpContext.User.Identity.Name,
+                TenantId = LoginTenantId
             };
             await _iCommon.CurrentItemsUpdate(_ItemTranViewModel);
             return new JsonResult(vm);
@@ -342,6 +350,9 @@ namespace BusinessERP.Controllers
 
         private async Task<PurchasesPaymentDetail> CreatePurchasesPaymentsDetail(PurchasesPaymentDetail _PurchasesPaymentDetail)
         {
+            var objUser = _iFunctional.GetSharedTenantData(User).Result;
+            Int64 LoginTenantId = objUser.TenantId ?? 0;
+
             var _Total = _PurchasesPaymentDetail.Quantity * _PurchasesPaymentDetail.UnitPrice;
             var _ItemDiscountAmount = (_PurchasesPaymentDetail.ItemDiscount / 100) * _Total;
             var WithoutDiscountTotal = _Total - _ItemDiscountAmount;
@@ -356,6 +367,7 @@ namespace BusinessERP.Controllers
             _PurchasesPaymentDetail.ModifiedDate = DateTime.Now;
             _PurchasesPaymentDetail.CreatedBy = HttpContext.User.Identity.Name;
             _PurchasesPaymentDetail.ModifiedBy = HttpContext.User.Identity.Name;
+            if (LoginTenantId > 0) _PurchasesPaymentDetail.TenantId = LoginTenantId;
             _context.Add(_PurchasesPaymentDetail);
             var result = await _context.SaveChangesAsync();
             return _PurchasesPaymentDetail;

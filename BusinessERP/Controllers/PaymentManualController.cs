@@ -21,13 +21,15 @@ namespace BusinessERP.Controllers
         private readonly IPaymentService _iDBOperation;
         private string _StartDate = null;
         private string _EndDate = null;
+        private readonly IFunctional _iFunctional;
 
-        public PaymentManualController(ApplicationDbContext context, ICommon iCommon, IPaymentService iPaymentService, ISalesService iSalesService)
+        public PaymentManualController(ApplicationDbContext context, ICommon iCommon, IPaymentService iPaymentService, ISalesService iSalesService, IFunctional iFunctional)
         {
             _context = context;
             _iCommon = iCommon;
             _iSalesService = iSalesService;
             _iDBOperation = iPaymentService;
+            _iFunctional = iFunctional;
         }
         [Authorize(Roles = Pages.MainMenu.ManualInvoice.RoleName)]
         [HttpGet]
@@ -69,18 +71,18 @@ namespace BusinessERP.Controllers
                 int pageSize = length != null ? Convert.ToInt32(length) : 0;
                 int skip = start != null ? Convert.ToInt32(start) : 0;
                 int resultTotal = 0;
-
+                var objUser = _iFunctional.GetSharedTenantData(User).Result;
+                Int64 LoginTenantId = objUser.TenantId ?? 0;
 
                 IQueryable<PaymentCRUDViewModel> _GetGridItem = null;
                 if (_StartDate != null && _EndDate != null && _StartDate != "" && _EndDate != "")
                 {
-                    _GetGridItem = _iSalesService.GetPaymentGridData().Where(x => x.Category == InvoiceType.ManualInvoice && x.CreatedDate >= Convert.ToDateTime(_StartDate) && x.CreatedDate <= Convert.ToDateTime(_EndDate).AddDays(1));
+                    _GetGridItem = _iSalesService.GetPaymentGridData(LoginTenantId).Where(x => x.Category == InvoiceType.ManualInvoice && x.CreatedDate >= Convert.ToDateTime(_StartDate) && x.CreatedDate <= Convert.ToDateTime(_EndDate).AddDays(1));
                 }
                 else
                 {
-                    _GetGridItem = _iSalesService.GetPaymentGridData().Where(x => x.Category == InvoiceType.ManualInvoice);
+                    _GetGridItem = _iSalesService.GetPaymentGridData(LoginTenantId).Where(x => x.Category == InvoiceType.ManualInvoice);
                 }
-
 
                 //Sorting
                 if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnAscDesc)))
@@ -118,6 +120,9 @@ namespace BusinessERP.Controllers
         {
             try
             {
+                var objUser = _iFunctional.GetSharedTenantData(User).Result;
+                Int64 LoginTenantId = objUser.TenantId ?? 0;
+
                 var _IsVat = _context.CompanyInfo.FirstOrDefault(m => m.Cancelled == false).IsVat;
                 //ViewBag.ddlInventoryItem = new SelectList(_iCommon.LoadddlInventoryItem(_IsVat), "Id", "Name");
                 ViewBag._LoadddlCustomerInfo = new SelectList(_iCommon.LoadddlCustomerInfo(), "Id", "Name");
@@ -144,7 +149,7 @@ namespace BusinessERP.Controllers
                     //Set Branch By User
                     var _UserName = User.Identity.Name;
                     vm.PaymentCRUDViewModel.BranchId = await _iCommon.GetBranchIdByUserName(_UserName);
-
+                    vm.PaymentCRUDViewModel.TenantId = LoginTenantId;
                     vm.PaymentCRUDViewModel.UserName = _UserName;
                     _Payment = await _iDBOperation.CreateManualInvoice(vm.PaymentCRUDViewModel);
 

@@ -14,7 +14,7 @@ namespace BusinessERP.Services
         Task<ManagePurchasesPaymentViewModel> GetByPurchasesPaymentDetail(Int64 id);
         Task<ManagePurchasesPaymentViewModel> GetByPurchasesPaymentDetailInReturn(Int64 id);
         Task<PurchasesPaymentReportViewModel> PrintPurchasesPaymentInvoice(Int64 id);
-        IQueryable<PurchasesPaymentCRUDViewModel> GetPurchasesPaymentGridData();
+        IQueryable<PurchasesPaymentCRUDViewModel> GetPurchasesPaymentGridData(Int64 tenantId);
         IQueryable<PurchasesPaymentCRUDViewModel> GetPurchasesPaymentList();
         IQueryable<PurchasesPaymentDetailCRUDViewModel> GetPurchasesPaymentDetailList();
         IQueryable<PurchasesPaymentGridViewModel> GetPurchasesSummaryReportList();

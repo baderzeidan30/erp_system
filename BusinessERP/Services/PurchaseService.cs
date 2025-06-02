@@ -58,7 +58,7 @@ namespace BusinessERP.Services
             vm.CompanyInfoCRUDViewModel = _context.CompanyInfo.FirstOrDefault(m => m.Id == 1);
             return vm;
         }
-        public IQueryable<PurchasesPaymentCRUDViewModel> GetPurchasesPaymentGridData()
+        public IQueryable<PurchasesPaymentCRUDViewModel> GetPurchasesPaymentGridData(Int64 tenantId)
         {
             try
             {
@@ -70,6 +70,7 @@ namespace BusinessERP.Services
                               into _PaymentStatus
                               from listPaymentStatus in _PaymentStatus.DefaultIfEmpty()
                               where _PurchasesPayment.Cancelled == false && _PurchasesPayment.ReturnType != TranReturnType.FullReturn
+                               && ((_PurchasesPayment.TenantId == tenantId && tenantId > 0) || (tenantId == 0 && !_PurchasesPayment.TenantId.HasValue))
                               select new PurchasesPaymentCRUDViewModel
                               {
                                   Id = _PurchasesPayment.Id,

@@ -26,7 +26,7 @@ namespace BusinessERP.Models.PaymentDetailViewModel
         public string UserName { get; set; }
         public PaymentCRUDViewModel PaymentCRUDViewModel { get; set; }
 
-
+        public Int64 TenantId { get; set; }
         public static implicit operator PaymentDetailCRUDViewModel(PaymentDetail _PaymentDetail)
         {
             return new PaymentDetailCRUDViewModel

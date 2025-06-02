@@ -23,13 +23,14 @@ namespace BusinessERP.Controllers
         private readonly ICommon _iCommon;
         private readonly ISalesService _iSalesService;
         private readonly IPaymentService _iPaymentService;
-
-        public ExpenseSummaryController(ApplicationDbContext context, ICommon iCommon, IPaymentService iPaymentService, ISalesService iSalesService)
+        private readonly IFunctional _iFunctional;
+        public ExpenseSummaryController(ApplicationDbContext context, ICommon iCommon, IPaymentService iPaymentService, ISalesService iSalesService, IFunctional iFunctional)
         {
             _context = context;
             _iCommon = iCommon;
             _iPaymentService = iPaymentService;
             _iSalesService = iSalesService;
+            _iFunctional = iFunctional;
         }
 
         [Authorize(Roles = Pages.MainMenu.ExpenseSummary.RoleName)]
@@ -56,7 +57,10 @@ namespace BusinessERP.Controllers
                 int skip = start != null ? Convert.ToInt32(start) : 0;
                 int resultTotal = 0;
 
-                var _GetGridItem = _iCommon.GetExpenseSummaryGridItem();
+                var objUser = _iFunctional.GetSharedTenantData(User).Result;
+                Int64 LoginTenantId = objUser.TenantId ?? 0;
+
+                var _GetGridItem = _iCommon.GetExpenseSummaryGridItem(LoginTenantId);
                 //Sorting
                 if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnAscDesc)))
                 {
@@ -94,7 +98,9 @@ namespace BusinessERP.Controllers
         public async Task<IActionResult> Details(long? id)
         {
             if (id == null) return NotFound();
-            ExpenseSummaryCRUDViewModel vm = await _iCommon.GetExpenseSummaryGridItem().Where(m => m.Id == id).FirstOrDefaultAsync();
+            var objUser = _iFunctional.GetSharedTenantData(User).Result;
+            Int64 LoginTenantId = objUser.TenantId ?? 0;
+            ExpenseSummaryCRUDViewModel vm = await _iCommon.GetExpenseSummaryGridItem(LoginTenantId).Where(m => m.Id == id).FirstOrDefaultAsync();
             vm.listExpenseDetails = _iCommon.GetExpenseDetailsList().Where(x => x.ExpenseSummaryId == id).ToList();
             if (vm == null) return NotFound();
             return PartialView("_Details", vm);
@@ -152,6 +158,9 @@ namespace BusinessERP.Controllers
             string _UserName = HttpContext.User.Identity.Name;
             try
             {
+                var objUser = _iFunctional.GetSharedTenantData(User).Result;
+                Int64 LoginTenantId = objUser.TenantId ?? 0;
+
                 ExpenseSummary _ExpenseSummary = new();
                 _ExpenseSummary = await _context.ExpenseSummary.FindAsync(vm.Id);
 
@@ -159,6 +168,7 @@ namespace BusinessERP.Controllers
                 vm.CreatedBy = _ExpenseSummary.CreatedBy;
                 vm.ModifiedDate = DateTime.Now;
                 vm.ModifiedBy = _UserName;
+                if (LoginTenantId > 0) _ExpenseSummary.TenantId = LoginTenantId;
                 _context.Entry(_ExpenseSummary).CurrentValues.SetValues(vm);
                 await _context.SaveChangesAsync();
 
@@ -216,8 +226,11 @@ namespace BusinessERP.Controllers
         [HttpPost]
         public async Task<IActionResult> AddExpenseDetails(ExpenseDetailsCRUDViewModel vm)
         {
+            var objUser = _iFunctional.GetSharedTenantData(User).Result;
+            Int64 LoginTenantId = objUser.TenantId ?? 0;
             var _ExpenseSummaryCRUDViewModel = vm.ExpenseSummaryCRUDViewModel;
             vm.UserName = HttpContext.User.Identity.Name;
+            vm.TenantId = LoginTenantId;
             vm = await _iPaymentService.AddExpenseDetails(vm);
 
             vm.ExpenseSummaryCRUDViewModel = await _iPaymentService.UpdateExpenseSummary(_ExpenseSummaryCRUDViewModel);

@@ -32,6 +32,7 @@ namespace BusinessERP.Services
         Task GenerateUserUserRole();
         Task CreateItem();
         Task<SharedUIDataViewModel> GetSharedUIData(ClaimsPrincipal _ClaimsPrincipal);
+        Task<UserProfile> GetSharedTenantData(ClaimsPrincipal _ClaimsPrincipal);
         Task CreateDefaultIdentitySettings();
         Task<DefaultIdentityOptions> GetDefaultIdentitySettings();
         Task<string> UploadFile(List<IFormFile> files, IWebHostEnvironment env, string uploadFolder);

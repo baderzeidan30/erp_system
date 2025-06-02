@@ -9,5 +9,6 @@ namespace BusinessERP.Models.ItemsViewModel
         public bool IsAddition { get; set; }
         public string ActionMessage { get; set; }
         public string CurrentUserName { get; set; }
+        public Int64 TenantId { get; set; }
     }
 }

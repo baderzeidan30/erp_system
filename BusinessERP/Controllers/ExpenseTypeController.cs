@@ -9,6 +9,8 @@ using System;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
+using static BusinessERP.Pages.MainMenu;
+using ExpenseType = BusinessERP.Models.ExpenseType;
 
 namespace BusinessERP.Controllers
 {
@@ -18,11 +20,13 @@ namespace BusinessERP.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly ICommon _iCommon;
+        private readonly IFunctional _iFunctional;
 
-        public ExpenseTypeController(ApplicationDbContext context, ICommon iCommon)
+        public ExpenseTypeController(ApplicationDbContext context, ICommon iCommon, IFunctional iFunctional)
         {
             _context = context;
             _iCommon = iCommon;
+            _iFunctional = iFunctional;
         }
 
         [Authorize(Roles = Pages.MainMenu.ExpenseType.RoleName)]
@@ -48,8 +52,9 @@ namespace BusinessERP.Controllers
                 int pageSize = length != null ? Convert.ToInt32(length) : 0;
                 int skip = start != null ? Convert.ToInt32(start) : 0;
                 int resultTotal = 0;
-
-                var _GetGridItem = GetGridItem();
+                var objUser = _iFunctional.GetSharedTenantData(User).Result;
+                Int64 LoginTenantId = objUser.TenantId ?? 0;
+                var _GetGridItem = GetGridItem(LoginTenantId);
                 //Sorting
                 if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnAscDesc)))
                 {
@@ -83,12 +88,13 @@ namespace BusinessERP.Controllers
             }
         }
 
-        private IQueryable<ExpenseTypeCRUDViewModel> GetGridItem()
+        private IQueryable<ExpenseTypeCRUDViewModel> GetGridItem(Int64 tenantId)
         {
             try
             {
                 return (from _ExpenseType in _context.ExpenseType
                         where _ExpenseType.Cancelled == false
+                        && ((_ExpenseType.TenantId == tenantId && tenantId > 0) || (tenantId == 0 && !_ExpenseType.TenantId.HasValue))
                         select new ExpenseTypeCRUDViewModel
                         {
                             Id = _ExpenseType.Id,
@@ -129,6 +135,8 @@ namespace BusinessERP.Controllers
             {
                 try
                 {
+                    var objUser = _iFunctional.GetSharedTenantData(User).Result;
+                    Int64 LoginTenantId = objUser.TenantId ?? 0;
                     if (ModelState.IsValid)
                     {
                         ExpenseType _ExpenseType = new ExpenseType();
@@ -140,6 +148,7 @@ namespace BusinessERP.Controllers
                             vm.CreatedBy = _ExpenseType.CreatedBy;
                             vm.ModifiedDate = DateTime.Now;
                             vm.ModifiedBy = HttpContext.User.Identity.Name;
+                            if (LoginTenantId > 0) _ExpenseType.TenantId = LoginTenantId;
                             _context.Entry(_ExpenseType).CurrentValues.SetValues(vm);
                             await _context.SaveChangesAsync();
 
@@ -153,6 +162,7 @@ namespace BusinessERP.Controllers
                             _ExpenseType.ModifiedDate = DateTime.Now;
                             _ExpenseType.CreatedBy = HttpContext.User.Identity.Name;
                             _ExpenseType.ModifiedBy = HttpContext.User.Identity.Name;
+                            if (LoginTenantId > 0) _ExpenseType.TenantId = LoginTenantId;
                             _context.Add(_ExpenseType);
                             await _context.SaveChangesAsync();
 

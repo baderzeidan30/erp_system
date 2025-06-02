@@ -23,14 +23,16 @@ namespace BusinessERP.Controllers
         private readonly ISalesService _iSalesService;
         private readonly IPurchaseService _iPurchaseService;
         private readonly IPaymentService _iDBOperation;
+        private readonly IFunctional _iFunctional;
 
-        public ReturnLogController(ApplicationDbContext context, ICommon iCommon, IPaymentService iPaymentService, ISalesService iSalesService, IPurchaseService iPurchaseService)
+        public ReturnLogController(ApplicationDbContext context, ICommon iCommon, IPaymentService iPaymentService, ISalesService iSalesService, IPurchaseService iPurchaseService, IFunctional iFunctional)
         {
             _context = context;
             _iCommon = iCommon;
             _iDBOperation = iPaymentService;
             _iSalesService = iSalesService;
             _iPurchaseService = iPurchaseService;
+            _iFunctional = iFunctional;
         }
 
         [Authorize(Roles = Pages.MainMenu.SalesReturnLog.RoleName)]
@@ -57,7 +59,10 @@ namespace BusinessERP.Controllers
                 int skip = start != null ? Convert.ToInt32(start) : 0;
                 int resultTotal = 0;
 
-                var _GetGridItem = GetGridItem().Where(x => x.TranType == ReturnLogType.Sales);
+                var objUser = _iFunctional.GetSharedTenantData(User).Result;
+                Int64 LoginTenantId = objUser.TenantId ?? 0;
+
+                var _GetGridItem = GetGridItem(LoginTenantId).Where(x => x.TranType == ReturnLogType.Sales);
                 //Sorting
                 if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnAscDesc)))
                 {
@@ -89,7 +94,10 @@ namespace BusinessERP.Controllers
         [HttpGet]
         public async Task<IActionResult> ReturnLogDetails(Int64 id)
         {
-            var result = await GetGridItem().Where(x => x.Id == id).FirstOrDefaultAsync();
+
+            var objUser = _iFunctional.GetSharedTenantData(User).Result;
+            Int64 LoginTenantId = objUser.TenantId ?? 0;
+            var result = await GetGridItem(LoginTenantId).Where(x => x.Id == id).FirstOrDefaultAsync();
             if (result == null) return NotFound();
             return PartialView("_Details", result);
         }
@@ -125,6 +133,9 @@ namespace BusinessERP.Controllers
                 _ReturnLogCRUDViewModel.TranType = ReturnLogType.Sales;
                 _ReturnLogCRUDViewModel.Note = _ReturnNote;
                 _ReturnLogCRUDViewModel.UserName = _UserName;
+
+                var objUser = _iFunctional.GetSharedTenantData(User).Result;
+                _ReturnLogCRUDViewModel.TenantId = objUser.TenantId ?? 0;
                 await _iDBOperation.AddReturnLog(_ReturnLogCRUDViewModel);
 
 
@@ -189,6 +200,8 @@ namespace BusinessERP.Controllers
                 _ReturnLogCRUDViewModel.TranType = ReturnLogType.Sales;
                 _ReturnLogCRUDViewModel.Note = "Single Item Sales Return. Item Name: " + _PaymentDetail.ItemName;
                 _ReturnLogCRUDViewModel.UserName = _UserName;
+                var objUser = _iFunctional.GetSharedTenantData(User).Result;
+                _ReturnLogCRUDViewModel.TenantId = objUser.TenantId ?? 0;
                 await _iDBOperation.AddReturnLog(_ReturnLogCRUDViewModel);
 
                 //Update Payment Detail
@@ -242,7 +255,9 @@ namespace BusinessERP.Controllers
                 int skip = start != null ? Convert.ToInt32(start) : 0;
                 int resultTotal = 0;
 
-                var _GetGridItem = GetGridItem().Where(x => x.TranType == ReturnLogType.Purchase);
+                var objUser = _iFunctional.GetSharedTenantData(User).Result;
+                Int64 LoginTenantId = objUser.TenantId ?? 0;
+                var _GetGridItem = GetGridItem(LoginTenantId).Where(x => x.TranType == ReturnLogType.Purchase);
                 //Sorting
                 if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnAscDesc)))
                 {
@@ -305,6 +320,8 @@ namespace BusinessERP.Controllers
                 _ReturnLogCRUDViewModel.TranType = ReturnLogType.Purchase;
                 _ReturnLogCRUDViewModel.Note = _ReturnNote;
                 _ReturnLogCRUDViewModel.UserName = _UserName;
+                var objUser = _iFunctional.GetSharedTenantData(User).Result;
+                _ReturnLogCRUDViewModel.TenantId = objUser.TenantId ?? 0;
                 await _iDBOperation.AddReturnLog(_ReturnLogCRUDViewModel);
 
 
@@ -369,6 +386,8 @@ namespace BusinessERP.Controllers
                 _ReturnLogCRUDViewModel.TranType = ReturnLogType.Purchase;
                 _ReturnLogCRUDViewModel.Note = "Single Item Purchase Return. Item Name: " + _PurchasesPaymentDetail.ItemName;
                 _ReturnLogCRUDViewModel.UserName = _UserName;
+                var objUser = _iFunctional.GetSharedTenantData(User).Result;
+                _ReturnLogCRUDViewModel.TenantId = objUser.TenantId ?? 0;
                 await _iDBOperation.AddReturnLog(_ReturnLogCRUDViewModel);
 
                 _PurchasesPaymentDetail.ModifiedDate = DateTime.Now;
@@ -395,7 +414,7 @@ namespace BusinessERP.Controllers
         }
 
 
-        private IQueryable<ReturnLogCRUDViewModel> GetGridItem()
+        private IQueryable<ReturnLogCRUDViewModel> GetGridItem(Int64 tenantId)
         {
             try
             {
@@ -403,6 +422,7 @@ namespace BusinessERP.Controllers
                               join _CustomerInfo in _context.CustomerInfo on _ReturnLog.CustomerId equals _CustomerInfo.Id
                               join _Supplier in _context.Supplier on _ReturnLog.CustomerId equals _Supplier.Id
                               where _ReturnLog.Cancelled == false
+                              && ((_ReturnLog.TenantId == tenantId && tenantId > 0) || (tenantId == 0 && !_ReturnLog.TenantId.HasValue))
                               select new ReturnLogCRUDViewModel
                               {
                                   Id = _ReturnLog.Id,

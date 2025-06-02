@@ -96,7 +96,7 @@ namespace BusinessERP.Controllers
                         var _CompanyInfo = await _context.CompanyInfo.FirstOrDefaultAsync(m => m.Id == 1);
                         _JsonResultViewModel.ModelObject = _CompanyInfo;
 
-                        HttpContext.Session.SetString("LoginUserName", model.Email);
+                        HttpContext.Session.SetString("LoginTenantId",  (_UserProfile.TenantId??0)+"");
                         _JsonResultViewModel.AlertMessage = _AlertMessage;
 
                         _logger.LogInformation(_AlertMessage);
@@ -136,7 +136,9 @@ namespace BusinessERP.Controllers
                 var authClaims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
+
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new Claim("TenantId","")
                 };
 
                 foreach (var userRole in userRoles)

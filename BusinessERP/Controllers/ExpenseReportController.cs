@@ -21,12 +21,13 @@ namespace BusinessERP.Controllers
         private readonly ApplicationDbContext _context;
         private readonly ICommon _iCommon;
         private readonly IPaymentService _iDBOperation;
-
-        public ExpenseReportController(ApplicationDbContext context, ICommon iCommon, IPaymentService iPaymentService)
+        private readonly IFunctional _iFunctional;
+        public ExpenseReportController(ApplicationDbContext context, ICommon iCommon, IPaymentService iPaymentService, IFunctional iFunctional)
         {
             _context = context;
             _iCommon = iCommon;
             _iDBOperation = iPaymentService;
+            _iFunctional = iFunctional;
         }
 
         [Authorize(Roles = MainMenu.ExpenseSummaryReport.RoleName)]
@@ -54,15 +55,17 @@ namespace BusinessERP.Controllers
                 int skip = start != null ? Convert.ToInt32(start) : 0;
                 int resultTotal = 0;
 
+                var objUser = _iFunctional.GetSharedTenantData(User).Result;
+                Int64 LoginTenantId = objUser.TenantId ?? 0;
 
                 IQueryable<ExpenseSummaryCRUDViewModel> _GetGridItem;
                 if (IsFilterData)
                 {
-                    _GetGridItem = _iCommon.GetExpenseSummaryGridItem().Where(obj => obj.BranchId == BranchId);
+                    _GetGridItem = _iCommon.GetExpenseSummaryGridItem(LoginTenantId).Where(obj => obj.BranchId == BranchId);
                 }
                 else
                 {
-                    _GetGridItem = _iCommon.GetExpenseSummaryGridItem();
+                    _GetGridItem = _iCommon.GetExpenseSummaryGridItem(LoginTenantId);
                 }
 
                 //Sorting

@@ -27,13 +27,15 @@ namespace BusinessERP.Controllers
         private readonly IPaymentService _iPaymentService;
         private string _StartDate = null;
         private string _EndDate = null;
+        private readonly IFunctional _iFunctional;
 
-        public PaymentController(ApplicationDbContext context, ICommon iCommon, IPaymentService iPaymentService, ISalesService iSalesService)
+        public PaymentController(ApplicationDbContext context, ICommon iCommon, IPaymentService iPaymentService, ISalesService iSalesService, IFunctional iFunctional)
         {
             _context = context;
             _iCommon = iCommon;
             _iSalesService = iSalesService;
             _iPaymentService = iPaymentService;
+            _iFunctional = iFunctional;
         }
 
         [Authorize(Roles = Pages.MainMenu.Invoice.RoleName)]
@@ -77,15 +79,17 @@ namespace BusinessERP.Controllers
                 int skip = start != null ? Convert.ToInt32(start) : 0;
                 int resultTotal = 0;
 
+                var objUser = _iFunctional.GetSharedTenantData(User).Result;
+                Int64 LoginTenantId = objUser.TenantId ?? 0;
 
                 IQueryable<PaymentCRUDViewModel> _GetGridItem = null;
                 if (_StartDate != null && _EndDate != null && _StartDate != "" && _EndDate != "")
                 {
-                    _GetGridItem = _iSalesService.GetPaymentGridData().Where(x => x.Category == InvoiceType.RegularInvoice && x.CreatedDate >= Convert.ToDateTime(_StartDate) && x.CreatedDate <= Convert.ToDateTime(_EndDate).AddDays(1));
+                    _GetGridItem = _iSalesService.GetPaymentGridData(LoginTenantId).Where(x => x.Category == InvoiceType.RegularInvoice && x.CreatedDate >= Convert.ToDateTime(_StartDate) && x.CreatedDate <= Convert.ToDateTime(_EndDate).AddDays(1));
                 }
                 else
                 {
-                    _GetGridItem = _iSalesService.GetPaymentGridData().Where(x => x.Category == InvoiceType.RegularInvoice);
+                    _GetGridItem = _iSalesService.GetPaymentGridData(LoginTenantId).Where(x => x.Category == InvoiceType.RegularInvoice);
                 }
 
                 //Sorting
@@ -182,6 +186,9 @@ namespace BusinessERP.Controllers
                 var currencyTask = _context.Currency.Where(m => m.IsDefault == true).Select(m => m.Symbol).FirstOrDefaultAsync();
                 var branchTask = _iCommon.GetBranchIdByUserName(User.Identity.Name);
 
+                var objUser = _iFunctional.GetSharedTenantData(User).Result;
+                Int64 LoginTenantId = objUser.TenantId ?? 0;
+
                 // Load dropdown data in parallel
                 var loadDropdownTasks = new Task[]
                 {
@@ -223,6 +230,7 @@ namespace BusinessERP.Controllers
                     // Set Branch By User
                     vm.PaymentCRUDViewModel.BranchId = await branchTask;
                     vm.PaymentCRUDViewModel.UserName = User.Identity.Name;
+                    vm.PaymentCRUDViewModel.TenantId = LoginTenantId;
 
                     _Payment = await _iPaymentService.CreateDraftInvoice(vm.PaymentCRUDViewModel);
 
@@ -254,6 +262,9 @@ namespace BusinessERP.Controllers
                 var _CompanyInfo = await _context.CompanyInfo.FirstOrDefaultAsync(m => m.Cancelled == false);
                 ViewBag.ddlInventoryItem = new SelectList(_iCommon.LoadddlInventoryItem(_CompanyInfo.IsVat), "Id", "Name");
                 ManagePaymentViewModel vm = new();
+                var objUser = _iFunctional.GetSharedTenantData(User).Result;
+                Int64 LoginTenantId = objUser.TenantId ?? 0;
+
                 if (id > 0)
                 {
                     vm = await _iSalesService.GetByPaymentDetail(id);
@@ -275,8 +286,8 @@ namespace BusinessERP.Controllers
                     vm.PaymentCRUDViewModel.BranchId = await _iCommon.GetBranchIdByUserName(_UserName);
 
                     vm.PaymentCRUDViewModel.UserName = HttpContext.User.Identity.Name;
+                    vm.PaymentCRUDViewModel.TenantId = LoginTenantId;
                     _Payment = await _iPaymentService.CreateDraftInvoice(vm.PaymentCRUDViewModel);
-
                     vm.PaymentCRUDViewModel.Id = _Payment.Id;
                     vm.PaymentCRUDViewModel.Category = InvoiceType.DraftInvoice;
                     vm.PaymentCRUDViewModel.CreatedDate = _Payment.CreatedDate;
@@ -301,6 +312,10 @@ namespace BusinessERP.Controllers
             JsonResultViewModel _JsonResultViewModel = new();
             try
             {
+                var objUser = _iFunctional.GetSharedTenantData(User).Result;
+                Int64 LoginTenantId = objUser.TenantId ?? 0;
+                vm.TenantId = LoginTenantId;
+
                 string strUserName = HttpContext.User.Identity.Name;
 
                 if (vm.Category == InvoiceType.RegularInvoice)
@@ -319,7 +334,7 @@ namespace BusinessERP.Controllers
                 {
                     vm.InvoiceNo = null;
                 }
-
+    
                 var result = await _iPaymentService.UpdatePayment(vm, true);
                 _JsonResultViewModel.CurrentURL = vm.CurrentURL;
                 _JsonResultViewModel.IsSuccess = true;
@@ -356,6 +371,10 @@ namespace BusinessERP.Controllers
         [HttpPost]
         public async Task<IActionResult> AddPaymentDetail(PaymentDetailCRUDViewModel vm)
         {
+            var objUser = _iFunctional.GetSharedTenantData(User).Result;
+            Int64 LoginTenantId = objUser.TenantId ?? 0;
+            vm.TenantId = LoginTenantId;
+
             string _CurrentUserName = HttpContext.User.Identity.Name;
             var _PaymentCRUDViewModel = vm.PaymentCRUDViewModel;
             vm = await _iPaymentService.CreatePaymentsDetail(vm, _CurrentUserName);
@@ -467,6 +486,9 @@ namespace BusinessERP.Controllers
         [HttpPost]
         public async Task<IActionResult> SavePaymentModeHistory(PaymentModeHistoryCRUDViewModel vm)
         {
+            var objUser = _iFunctional.GetSharedTenantData(User).Result;
+            Int64 LoginTenantId = objUser.TenantId ?? 0;
+            vm.TenantId = LoginTenantId;
             string UserName = HttpContext.User.Identity.Name;
             var _PaymentCRUDViewModel = vm.PaymentCRUDViewModel;
             vm.CreatedBy = UserName;

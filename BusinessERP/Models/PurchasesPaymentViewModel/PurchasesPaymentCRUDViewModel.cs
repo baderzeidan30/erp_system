@@ -65,7 +65,7 @@ namespace BusinessERP.Models.PurchasesPaymentViewModel
         public string UserName { get; set; }
         public Int64 QuoteNoRef { get; set; }
         public string ReturnNote {get; set; }
-
+        public Int64 TenantId { get; set; }
         public static implicit operator PurchasesPaymentCRUDViewModel(PurchasesPayment _PurchasesPayment)
         {
             return new PurchasesPaymentCRUDViewModel

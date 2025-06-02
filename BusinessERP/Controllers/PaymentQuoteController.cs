@@ -13,10 +13,12 @@ namespace BusinessERP.Controllers
     public class PaymentQuoteController : Controller
     {
         private readonly ISalesService _iSalesService;
+        private readonly IFunctional _iFunctional;
 
-        public PaymentQuoteController(ISalesService iSalesService)
+        public PaymentQuoteController(ISalesService iSalesService, IFunctional iFunctional)
         {
             _iSalesService = iSalesService;
+            _iFunctional = iFunctional;
         }
 
         [Authorize(Roles = Pages.MainMenu.QuoteInvoice.RoleName)]
@@ -42,8 +44,10 @@ namespace BusinessERP.Controllers
                 int pageSize = length != null ? Convert.ToInt32(length) : 0;
                 int skip = start != null ? Convert.ToInt32(start) : 0;
                 int resultTotal = 0;
+                var objUser = _iFunctional.GetSharedTenantData(User).Result;
+                Int64 LoginTenantId = objUser.TenantId ?? 0;
 
-                var _GetGridItem = _iSalesService.GetPaymentGridData().Where(x => x.Category == InvoiceType.QueoteInvoice);
+                var _GetGridItem = _iSalesService.GetPaymentGridData(LoginTenantId).Where(x => x.Category == InvoiceType.QueoteInvoice);
                 //Sorting
                 if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnAscDesc)))
                 {

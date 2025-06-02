@@ -1,5 +1,6 @@
 ﻿using BusinessERP.Models.ItemsViewModel;
 using System;
+using static BusinessERP.Pages.MainMenu;
 
 namespace BusinessERP.Models.ItemsHistoryViewModel
 {
@@ -17,7 +18,7 @@ namespace BusinessERP.Models.ItemsHistoryViewModel
         public int TranQuantity { get; set; }
         public string Action { get; set; }
         public string UserName { get; set; }
-
+        public Int64 TenantId { get; set; }
         public static implicit operator ItemsHistoryCRUDViewModel(ItemsHistory _ItemsHistory)
         {
             return new ItemsHistoryCRUDViewModel
@@ -32,7 +33,7 @@ namespace BusinessERP.Models.ItemsHistoryViewModel
                 NewQuantity = _ItemsHistory.NewQuantity,
                 TranQuantity = _ItemsHistory.TranQuantity,
                 Action = _ItemsHistory.Action,
-
+                TenantId=_ItemsHistory.TenantId??0,
                 CreatedDate = _ItemsHistory.CreatedDate,
                 ModifiedDate = _ItemsHistory.ModifiedDate,
                 CreatedBy = _ItemsHistory.CreatedBy,
@@ -55,7 +56,7 @@ namespace BusinessERP.Models.ItemsHistoryViewModel
                 NewQuantity = vm.NewQuantity,
                 TranQuantity = vm.TranQuantity,
                 Action = vm.Action,
-
+                TenantId = vm.TenantId,
                 CreatedDate = vm.CreatedDate,
                 ModifiedDate = vm.ModifiedDate,
                 CreatedBy = vm.CreatedBy,

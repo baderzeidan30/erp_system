@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.ComponentModel.DataAnnotations;
+using static BusinessERP.Pages.MainMenu;
 
 namespace BusinessERP.Models.ItemsViewModel
 {
@@ -87,7 +88,7 @@ namespace BusinessERP.Models.ItemsViewModel
         [Display(Name = "Vat Percentage")]
         public double VatPercentage { get; set; }
         public int Size { get; set; }
-
+        public Int64 TenantId { get; set; }
 
         public static implicit operator ItemsCRUDViewModel(Items _Items)
         {
@@ -106,7 +107,7 @@ namespace BusinessERP.Models.ItemsViewModel
                 TradeVAT = _Items.TradeVAT,
                 PremiumVAT = _Items.PremiumVAT,
                 OtherVAT = _Items.OtherVAT,
-
+                TenantId=_Items.TenantId??0,
                 OldUnitPrice = _Items.OldUnitPrice,
                 OldSellPrice = _Items.OldSellPrice,
                 Quantity = _Items.Quantity,
@@ -154,7 +155,7 @@ namespace BusinessERP.Models.ItemsViewModel
                 TradeVAT = vm.TradeVAT,
                 PremiumVAT = vm.PremiumVAT,
                 OtherVAT = vm.OtherVAT,
-
+                TenantId = vm.TenantId,
                 OldUnitPrice = vm.OldUnitPrice,
                 OldSellPrice = vm.OldSellPrice,
                 Quantity = vm.Quantity,

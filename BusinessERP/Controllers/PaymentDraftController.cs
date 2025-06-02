@@ -15,10 +15,11 @@ namespace BusinessERP.Controllers
     public class PaymentDraftController : Controller
     {
         private readonly ISalesService _iSalesService;
-
-        public PaymentDraftController(ISalesService iSalesService)
+        private readonly IFunctional _iFunctional;
+        public PaymentDraftController(ISalesService iSalesService, IFunctional iFunctional)
         {
             _iSalesService = iSalesService;
+            _iFunctional = iFunctional;
         }
 
         [Authorize(Roles = Pages.MainMenu.DraftInvoice.RoleName)]
@@ -44,8 +45,9 @@ namespace BusinessERP.Controllers
                 int pageSize = length != null ? Convert.ToInt32(length) : 0;
                 int skip = start != null ? Convert.ToInt32(start) : 0;
                 int resultTotal = 0;
-
-                var _GetGridItem = _iSalesService.GetPaymentGridData().Where(x => x.Category == InvoiceType.DraftInvoice);
+                var objUser = _iFunctional.GetSharedTenantData(User).Result;
+                Int64 LoginTenantId = objUser.TenantId ?? 0;
+                var _GetGridItem = _iSalesService.GetPaymentGridData(LoginTenantId).Where(x => x.Category == InvoiceType.DraftInvoice);
                 //Sorting
                 if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnAscDesc)))
                 {

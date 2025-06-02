@@ -69,8 +69,8 @@ namespace BusinessERP.Models.PaymentViewModel
         [Display(Name = "Return Note")]
         public string ReturnNote { get; set; }
         public bool IsSaveAndPrint { get; set; }
-        public bool IsEdit { get; set; } 
-
+        public bool IsEdit { get; set; }
+        public Int64 TenantId { get; set; }
         public static implicit operator PaymentCRUDViewModel(Payment _Payments)
         {
             return new PaymentCRUDViewModel

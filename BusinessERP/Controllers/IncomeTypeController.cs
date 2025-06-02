@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
+using static BusinessERP.Pages.MainMenu;
+using IncomeType = BusinessERP.Models.IncomeType;
 
 namespace BusinessERP.Controllers
 {
@@ -15,11 +17,13 @@ namespace BusinessERP.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly ICommon _iCommon;
+        private readonly IFunctional _iFunctional;
 
-        public IncomeTypeController(ApplicationDbContext context, ICommon iCommon)
+        public IncomeTypeController(ApplicationDbContext context, ICommon iCommon, IFunctional iFunctional)
         {
             _context = context;
             _iCommon = iCommon;
+            _iFunctional = iFunctional;
         }
 
         [Authorize(Roles = Pages.MainMenu.Admin.RoleName)]
@@ -33,11 +37,13 @@ namespace BusinessERP.Controllers
         {
             try
             {
-                var _GetDataTabelData = GetAllIncomeType();
+                var objUser = _iFunctional.GetSharedTenantData(User).Result;
+                Int64 LoginTenantId = objUser.TenantId ?? 0;
+                var _GetDataTabelData = GetAllIncomeType(LoginTenantId);
 
                 var searchValue = Request.Form["search[value]"].FirstOrDefault();
                 var filteredData = ApplySearchOnData(_GetDataTabelData, searchValue);
-
+      
                 var result = GetDataTablesProcessData(_GetDataTabelData, filteredData, searchValue);
                 return result;
             }
@@ -89,7 +95,9 @@ namespace BusinessERP.Controllers
             {
                 IncomeType _IncomeType = new();
                 string _UserName = HttpContext.User.Identity.Name;
-                if (vm.Id > 0)
+                var objUser = _iFunctional.GetSharedTenantData(User).Result;
+                Int64 LoginTenantId = objUser.TenantId ?? 0;
+                if (vm!=null && vm.Id > 0)
                 {
                     _IncomeType = await _context.IncomeType.FindAsync(vm.Id);
 
@@ -97,6 +105,7 @@ namespace BusinessERP.Controllers
                     vm.CreatedBy = _IncomeType.CreatedBy;
                     vm.ModifiedDate = DateTime.Now;
                     vm.ModifiedBy = _UserName;
+                    if (LoginTenantId > 0) _IncomeType.TenantId = LoginTenantId;
                     _context.Entry(_IncomeType).CurrentValues.SetValues(vm);
                     await _context.SaveChangesAsync();
 
@@ -110,6 +119,7 @@ namespace BusinessERP.Controllers
                     _IncomeType.ModifiedDate = DateTime.Now;
                     _IncomeType.CreatedBy = _UserName;
                     _IncomeType.ModifiedBy = _UserName;
+                    if (LoginTenantId > 0) _IncomeType.TenantId = LoginTenantId;
                     _context.Add(_IncomeType);
                     await _context.SaveChangesAsync();
 
@@ -146,9 +156,12 @@ namespace BusinessERP.Controllers
         [HttpGet]
         public async Task<JsonResult> GetAllType()
         {
+            var objUser = _iFunctional.GetSharedTenantData(User).Result;
+            Int64 LoginTenantId = objUser.TenantId ?? 0;
+
             try
             {
-                var result = await GetAllIncomeType().ToListAsync();
+                var result = await GetAllIncomeType(LoginTenantId).ToListAsync();
                 return new JsonResult(result);
             }
             catch (Exception)
@@ -156,11 +169,11 @@ namespace BusinessERP.Controllers
                 throw;
             }
         }
-        private IQueryable<IncomeType> GetAllIncomeType()
+        private IQueryable<IncomeType> GetAllIncomeType(Int64 tenantId)
         {
             try
             {
-                var result = _context.IncomeType.Where(x => x.Cancelled == false);
+                var result = _context.IncomeType.Where(x => x.Cancelled == false && ((x.TenantId == tenantId && tenantId > 0) || (tenantId == 0 && !x.TenantId.HasValue)));
                 return result;
             }
             catch (Exception)

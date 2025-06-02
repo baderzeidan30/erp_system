@@ -21,6 +21,14 @@ using BusinessERP.Models.ManageUserRolesVM;
 using BusinessERP.Models.UserProfileViewModel;
 using Microsoft.EntityFrameworkCore;
 using UAParser;
+using static BusinessERP.Pages.MainMenu;
+using AccAccount = BusinessERP.Models.AccAccount;
+using AccTransaction = BusinessERP.Models.AccTransaction;
+using EmailConfig = BusinessERP.Models.EmailConfig;
+using Items = BusinessERP.Models.Items;
+using ItemsHistory = BusinessERP.Models.ItemsHistory;
+using LoginHistory = BusinessERP.Models.LoginHistory;
+using UserProfile = BusinessERP.Models.UserProfile;
 
 namespace BusinessERP.Services
 {
@@ -190,6 +198,7 @@ namespace BusinessERP.Services
             _ItemsHistoryCRUDViewModel.NewQuantity = _NewQuantity;
             _ItemsHistoryCRUDViewModel.CreatedDate = DateTime.Now;
             _ItemsHistoryCRUDViewModel.CreatedBy = _ItemTranViewModel.CurrentUserName;
+            if (vm.TenantId > 0) _ItemsHistoryCRUDViewModel.TenantId = vm.TenantId;
             _context.ItemsHistory.Add(_ItemsHistoryCRUDViewModel);
             await _context.SaveChangesAsync();
         }
@@ -200,9 +209,9 @@ namespace BusinessERP.Services
             return result;
         }
 
-        public IQueryable<ItemDropdownListViewModel> GetCommonddlData(string strTableName,string Val,string Name)
+        public IQueryable<ItemDropdownListViewModel> GetCommonddlData(string strTableName, string Val, string Name)
         {
-            var sql = "select "+ Val + " Id, "+ Name + " Name from " + strTableName + " where Cancelled = 0";
+            var sql = "select " + Val + " Id, " + Name + " Name from " + strTableName + " where Cancelled = 0";
             var result = _context.ItemDropdownListViewModel.FromSqlRaw(sql);
             return result;
         }
@@ -475,12 +484,13 @@ namespace BusinessERP.Services
                 throw;
             }
         }
-        public IQueryable<List<ItemCartViewModel>> GetAllCartItemForCustomDT()
+        public IQueryable<List<ItemCartViewModel>> GetAllCartItemForCustomDT(Int64 tenantId)
         {
             try
             {
                 var result = (from _Item in _context.Items
                               where _Item.Cancelled == false && _Item.Quantity > 0
+                              && ((_Item.TenantId == tenantId && tenantId > 0) || (tenantId == 0 && !_Item.TenantId.HasValue))
                               select new ItemCartViewModel
                               {
                                   Id = _Item.Id,
@@ -496,7 +506,7 @@ namespace BusinessERP.Services
                     .Select(x => x.Select(v => v.Value).ToList()).ToList();
 
                 var lastItem = _listBarcodeViewModel.LastOrDefault();
-                if (lastItem.Count > 0)
+                if (lastItem != null && lastItem.Count > 0)
                 {
                     _listBarcodeViewModel.Remove(lastItem);
                     ItemCartViewModel _ItemCartViewModel = new();
@@ -526,7 +536,7 @@ namespace BusinessERP.Services
             catch (Exception) { throw; }
         }
 
-        public IQueryable<List<ItemCartViewModel>> GetItemCartDataList()
+        public IQueryable<List<ItemCartViewModel>> GetItemCartDataList(Int64 tenantId)
         {
             try
             {
@@ -535,6 +545,7 @@ namespace BusinessERP.Services
                               into _Categories
                               from listCategories in _Categories.DefaultIfEmpty()
                               where _Item.Cancelled == false && _Item.Quantity > 0
+                             && ((_Item.TenantId == tenantId && tenantId > 0) || (tenantId == 0 && !_Item.TenantId.HasValue))
                               select new ItemCartViewModel
                               {
                                   Id = _Item.Id,
@@ -553,7 +564,7 @@ namespace BusinessERP.Services
                     .Select(x => x.Select(v => v.Value).ToList()).ToList();
 
                 var lastItem = _listBarcodeViewModel.LastOrDefault();
-                if (lastItem.Count > 0)
+                if (lastItem != null && lastItem.Count > 0)
                 {
                     _listBarcodeViewModel.Remove(lastItem);
                     ItemCartViewModel _ItemCartViewModel = new();
@@ -852,7 +863,7 @@ namespace BusinessERP.Services
                         Name = tblObj.Name
                     }).OrderByDescending(x => x.Id);
         }
-        public IQueryable<CustomerInfoCRUDViewModel> GetCustomerList()
+        public IQueryable<CustomerInfoCRUDViewModel> GetCustomerList(Int64 tenantId)
         {
             try
             {
@@ -861,6 +872,7 @@ namespace BusinessERP.Services
                               into _CustomerType
                               from listCustomerType in _CustomerType.DefaultIfEmpty()
                               where _CustomerInfo.Cancelled == false
+                              && ((_CustomerInfo.TenantId == tenantId && tenantId > 0) || (tenantId == 0 && !_CustomerInfo.TenantId.HasValue))
                               select new CustomerInfoCRUDViewModel
                               {
                                   Id = _CustomerInfo.Id,
@@ -979,7 +991,7 @@ namespace BusinessERP.Services
                 throw;
             }
         }
-        public IQueryable<ExpenseSummaryCRUDViewModel> GetExpenseSummaryGridItem()
+        public IQueryable<ExpenseSummaryCRUDViewModel> GetExpenseSummaryGridItem(Int64 tenantId)
         {
             try
             {
@@ -987,6 +999,7 @@ namespace BusinessERP.Services
                         join _Currency in _context.Currency on _ExpenseSummary.CurrencyCode equals _Currency.Id
                         join _Branch in _context.Branch on _ExpenseSummary.BranchId equals _Branch.Id
                         where _ExpenseSummary.Cancelled == false
+                        && ((_ExpenseSummary.TenantId == tenantId && tenantId > 0) || (tenantId == 0 && !_ExpenseSummary.TenantId.HasValue))
                         select new ExpenseSummaryCRUDViewModel
                         {
                             Id = _ExpenseSummary.Id,

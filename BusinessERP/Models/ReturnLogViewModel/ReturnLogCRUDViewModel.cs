@@ -15,7 +15,7 @@ namespace BusinessERP.Models.ReturnLogViewModel
         public string TranType { get; set; }
         public string Note { get; set; }
         public string UserName { get; set; }
-
+        public Int64 TenantId { get; set; }
         public static implicit operator ReturnLogCRUDViewModel(ReturnLog _ReturnLog)
         {
             return new ReturnLogCRUDViewModel
@@ -31,6 +31,7 @@ namespace BusinessERP.Models.ReturnLogViewModel
                 CreatedBy = _ReturnLog.CreatedBy,
                 ModifiedBy = _ReturnLog.ModifiedBy,
                 Cancelled = _ReturnLog.Cancelled,
+                TenantId=_ReturnLog.TenantId??0
             };
         }
 
@@ -49,6 +50,7 @@ namespace BusinessERP.Models.ReturnLogViewModel
                 CreatedBy = vm.CreatedBy,
                 ModifiedBy = vm.ModifiedBy,
                 Cancelled = vm.Cancelled,
+                TenantId = vm.TenantId
             };
         }
     }

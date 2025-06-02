@@ -15,11 +15,13 @@ namespace BusinessERP.Controllers
     public class PurchasesPaymentQuoteController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly IPurchaseService _iPurchaseService; 
-        public PurchasesPaymentQuoteController(ApplicationDbContext context, IPurchaseService iPurchaseService, IPaymentService iPaymentService, IEmailSender emailSender)
+        private readonly IPurchaseService _iPurchaseService;
+        private readonly IFunctional _iFunctional;
+        public PurchasesPaymentQuoteController(ApplicationDbContext context, IPurchaseService iPurchaseService, IPaymentService iPaymentService, IEmailSender emailSender, IFunctional iFunctional)
         {
             _context = context;
             _iPurchaseService = iPurchaseService;
+            _iFunctional = iFunctional;
         }
 
         [Authorize(Roles = Pages.MainMenu.PurchasesPaymentDraft.RoleName)]
@@ -45,8 +47,10 @@ namespace BusinessERP.Controllers
                 int pageSize = length != null ? Convert.ToInt32(length) : 0;
                 int skip = start != null ? Convert.ToInt32(start) : 0;
                 int resultTotal = 0;
-              
-                var _GetGridItem = _iPurchaseService.GetPurchasesPaymentGridData().Where(x => x.Category == InvoiceType.QueoteInvoice);
+
+                var objUser = _iFunctional.GetSharedTenantData(User).Result;
+                Int64 LoginTenantId = objUser.TenantId ?? 0;
+                var _GetGridItem = _iPurchaseService.GetPurchasesPaymentGridData(LoginTenantId).Where(x => x.Category == InvoiceType.QueoteInvoice);
                 //Sorting
                 if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnAscDesc)))
                 {

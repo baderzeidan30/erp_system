@@ -75,6 +75,8 @@ namespace BusinessERP.ConHelper
 
             vm.ModifiedDate = DateTime.Now;
             vm.ModifiedBy = vm.UserName;
+            if (vm.TenantId > 0) _Payment.TenantId = vm.TenantId;
+
             _context.Entry(_Payment).CurrentValues.SetValues(vm);
             await _context.SaveChangesAsync();
 
@@ -86,6 +88,7 @@ namespace BusinessERP.ConHelper
                 _CustomerInfoInfo.CreatedBy = _CustomerInfoInfo.CreatedBy;
                 _CustomerInfoInfo.ModifiedDate = DateTime.Now;
                 _CustomerInfoInfo.ModifiedBy = vm.UserName;
+ 
                 _context.Update(_CustomerInfoInfo);
                 await _context.SaveChangesAsync();
             }
@@ -111,6 +114,8 @@ namespace BusinessERP.ConHelper
             _PaymentDetail.ModifiedDate = DateTime.Now;
             _PaymentDetail.CreatedBy = UserName;
             _PaymentDetail.ModifiedBy = UserName;
+            if (_PaymentDetail.TenantId > 0) _PaymentDetail.TenantId = _PaymentDetail.TenantId;
+
             _context.Add(_PaymentDetail);
             var result = await _context.SaveChangesAsync();
             return _PaymentDetail;
@@ -168,6 +173,7 @@ namespace BusinessERP.ConHelper
                 PaymentModeHistory _PaymentModeHistory = vm;
                 _PaymentModeHistory.CreatedDate = DateTime.Now;
                 _PaymentModeHistory.ModifiedDate = DateTime.Now;
+                if (vm.TenantId > 0) _PaymentModeHistory.TenantId = vm.TenantId;
                 _context.Add(_PaymentModeHistory);
                 await _context.SaveChangesAsync();
 
@@ -363,6 +369,8 @@ namespace BusinessERP.ConHelper
                 _Payment.ModifiedDate = DateTime.Now;
                 _Payment.CreatedBy = vm.UserName;
                 _Payment.ModifiedBy = vm.UserName;
+                if (vm.TenantId > 0) _Payment.TenantId = vm.TenantId;
+
                 _context.Add(_Payment);
                 await _context.SaveChangesAsync();
                 return _Payment;
@@ -386,6 +394,7 @@ namespace BusinessERP.ConHelper
                 _Payment.ModifiedDate = DateTime.Now;
                 _Payment.CreatedBy = vm.UserName;
                 _Payment.ModifiedBy = vm.UserName;
+                if (vm.TenantId > 0) _Payment.TenantId = vm.TenantId;
                 _context.Add(_Payment);
                 await _context.SaveChangesAsync();
                 return _Payment;
@@ -469,6 +478,7 @@ namespace BusinessERP.ConHelper
             _ExpenseDetails.ModifiedDate = DateTime.Now;
             _ExpenseDetails.CreatedBy = vm.UserName;
             _ExpenseDetails.ModifiedBy = vm.UserName;
+            if (vm.TenantId > 0) _ExpenseDetails.TenantId = vm.TenantId;
             _context.Add(_ExpenseDetails);
             var result = await _context.SaveChangesAsync();
             vm = _ExpenseDetails;
@@ -482,7 +492,6 @@ namespace BusinessERP.ConHelper
             vm.Cancelled = false;
             vm.CreatedDate = _ExpenseDetails.CreatedDate;
             vm.CreatedBy = _ExpenseDetails.CreatedBy;
-
             vm.ModifiedDate = DateTime.Now;
             vm.ModifiedBy = vm.UserName;
             _context.Entry(_ExpenseDetails).CurrentValues.SetValues(vm);
@@ -497,6 +506,7 @@ namespace BusinessERP.ConHelper
             _SendEmailHistory.ModifiedDate = DateTime.Now;
             _SendEmailHistory.CreatedBy = vm.UserName;
             _SendEmailHistory.ModifiedBy = vm.UserName;
+            if (vm.TenantId > 0) _SendEmailHistory.TenantId = vm.TenantId;
             _context.Add(_SendEmailHistory);
             var result = await _context.SaveChangesAsync();
             vm = _SendEmailHistory;
@@ -513,6 +523,7 @@ namespace BusinessERP.ConHelper
                 _ReturnLog.ModifiedDate = DateTime.Now;
                 _ReturnLog.CreatedBy = vm.UserName;
                 _ReturnLog.ModifiedBy = vm.UserName;
+                if (vm.TenantId > 0) _ReturnLog.TenantId = vm.TenantId;
                 _context.Add(_ReturnLog);
                 var result = await _context.SaveChangesAsync();
                 vm = _ReturnLog;

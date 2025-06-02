@@ -22,13 +22,14 @@ namespace BusinessERP.Controllers
         private readonly ICommon _iCommon;
         private readonly ISalesService _iSalesService;
         private readonly IPaymentService _iPaymentService;
-
-        public ItemCartController(ApplicationDbContext context, ICommon iCommon, ISalesService iSalesService, IPaymentService iPaymentService)
+        private readonly IFunctional _iFunctional;
+        public ItemCartController(ApplicationDbContext context, ICommon iCommon, ISalesService iSalesService, IPaymentService iPaymentService, IFunctional iFunctional)
         {
             _context = context;
             _iCommon = iCommon;
             _iSalesService = iSalesService;
             _iPaymentService = iPaymentService;
+            _iFunctional = iFunctional;
         }
 
         [Authorize(Roles = Pages.MainMenu.ItemCart.RoleName)]
@@ -61,7 +62,9 @@ namespace BusinessERP.Controllers
                 int skip = start != null ? Convert.ToInt32(start) : 0;
                 int resultTotal = 0;
 
-                var _GetGridItem = _iCommon.GetAllCartItemForCustomDT();
+                var objUser = _iFunctional.GetSharedTenantData(User).Result;
+                Int64 LoginTenantId = objUser.TenantId ?? 0;
+                var _GetGridItem = _iCommon.GetAllCartItemForCustomDT(LoginTenantId);
 
                 //Search
                 if (!string.IsNullOrEmpty(searchValue))
@@ -129,15 +132,18 @@ namespace BusinessERP.Controllers
                 int skip = start != null ? Convert.ToInt32(start) : 0;
                 int resultTotal = 0;
 
+
+                var objUser = _iFunctional.GetSharedTenantData(User).Result;
+                Int64 LoginTenantId = objUser.TenantId ?? 0;
                 IQueryable<List<ItemCartViewModel>> _GetItemCartDataList;
                 if (IsFilterData)
                 {
-                    _GetItemCartDataList = _iCommon.GetItemCartDataList().Where(obj => obj[0].CategoriesId == CategoriesId
+                    _GetItemCartDataList = _iCommon.GetItemCartDataList(LoginTenantId).Where(obj => obj[0].CategoriesId == CategoriesId
                     || obj[1].CategoriesId == CategoriesId || obj[2].CategoriesId == CategoriesId);
                 }
                 else
                 {
-                    _GetItemCartDataList = _iCommon.GetItemCartDataList();
+                    _GetItemCartDataList = _iCommon.GetItemCartDataList(LoginTenantId);
                 }
 
 
@@ -192,7 +198,9 @@ namespace BusinessERP.Controllers
         [HttpPost]
         public IActionResult GetItemByCategories(Int64 CategoriesId)
         {
-            var _GetGridItem = _iCommon.GetItemCartDataList().Where(obj => obj[0].CategoriesId == CategoriesId
+            var objUser = _iFunctional.GetSharedTenantData(User).Result;
+            Int64 LoginTenantId = objUser.TenantId ?? 0;
+            var _GetGridItem = _iCommon.GetItemCartDataList(LoginTenantId).Where(obj => obj[0].CategoriesId == CategoriesId
             || obj[1].CategoriesId == CategoriesId
             || obj[2].CategoriesId == CategoriesId);
             return new JsonResult(_GetGridItem);
@@ -201,6 +209,9 @@ namespace BusinessERP.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateDraftItemCart(ItemCartSideInvoiceViewModel vm)
         {
+            var objUser = _iFunctional.GetSharedTenantData(User).Result;
+            Int64 LoginTenantId = objUser.TenantId ?? 0;
+
             PaymentCRUDViewModel _PaymentCRUDViewModel = new();
             string _UserName = HttpContext.User.Identity.Name;
             _PaymentCRUDViewModel.InvoiceNo = _iPaymentService.GetInvoiceNo(InvoiceType.DraftInvoice);
@@ -208,6 +219,7 @@ namespace BusinessERP.Controllers
             _PaymentCRUDViewModel.CurrencySymbol = _context.Currency.FirstOrDefault(m => m.IsDefault == true).Symbol;
             _PaymentCRUDViewModel.UserName = _UserName;
 
+            _PaymentCRUDViewModel.TenantId = LoginTenantId;
             var _Payment = await _iPaymentService.CreateDraftInvoice(_PaymentCRUDViewModel);
             foreach (var item in vm.listPaymentDetail)
             {
@@ -233,6 +245,7 @@ namespace BusinessERP.Controllers
                     PaymentId = _Payment.Id,
                     CreatedBy = _UserName,
                     ModifiedBy = _UserName,
+                    TenantId= LoginTenantId,
                     ModeOfPayment = "Cash",
                     PaymentType = InvoicePaymentType.SalesInvoicePayment,
                     Amount = vm.PaidAmount

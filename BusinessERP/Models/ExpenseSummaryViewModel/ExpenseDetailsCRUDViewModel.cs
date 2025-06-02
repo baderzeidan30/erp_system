@@ -17,7 +17,7 @@ namespace BusinessERP.Models.ExpenseSummaryViewModel
         public double TotalPrice { get; set; }
         public string UserName { get; set; }
         public ExpenseSummaryCRUDViewModel ExpenseSummaryCRUDViewModel { get; set; }
-        
+        public Int64 TenantId { get; set; }
         public static implicit operator ExpenseDetailsCRUDViewModel(ExpenseDetails _ExpenseDetails)
         {
             return new ExpenseDetailsCRUDViewModel
@@ -35,6 +35,7 @@ namespace BusinessERP.Models.ExpenseSummaryViewModel
                 CreatedBy = _ExpenseDetails.CreatedBy,
                 ModifiedBy = _ExpenseDetails.ModifiedBy,
                 Cancelled = _ExpenseDetails.Cancelled,
+                TenantId=_ExpenseDetails.TenantId??0
             };
         }
 
@@ -55,6 +56,7 @@ namespace BusinessERP.Models.ExpenseSummaryViewModel
                 CreatedBy = vm.CreatedBy,
                 ModifiedBy = vm.ModifiedBy,
                 Cancelled = vm.Cancelled,
+                TenantId = vm.TenantId  
             };
         }
     }

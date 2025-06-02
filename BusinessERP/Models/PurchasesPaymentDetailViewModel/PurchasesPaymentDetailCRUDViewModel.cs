@@ -23,6 +23,7 @@ namespace BusinessERP.Models.PurchasesPaymentDetailViewModel
         public bool IsReturn { get; set; }
         public string IsReturnDisplay { get; set; }
         public string UserName { get; set; }
+        public Int64 TenantId { get; set; }
         public PurchasesPaymentCRUDViewModel PurchasesPaymentCRUDViewModel { get; set; }
 
 

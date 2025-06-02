@@ -60,7 +60,7 @@ namespace BusinessERP.Services
             vm.PaymentMode = Utility.GetModeOfPaymentCommaSeparated(vm.listPaymentModeHistoryCRUDViewModel);
             return vm;
         }
-        public IQueryable<PaymentCRUDViewModel> GetPaymentGridData()
+        public IQueryable<PaymentCRUDViewModel> GetPaymentGridData(Int64 tenantId)
         {
             try
             {
@@ -75,6 +75,7 @@ namespace BusinessERP.Services
                               into _Branch
                               from listBranch in _Branch.DefaultIfEmpty()
                               where _Payments.Cancelled == false && _Payments.ReturnType != TranReturnType.FullReturn
+                               && ((_Payments.TenantId == tenantId && tenantId > 0) || (tenantId == 0 && !_Payments.TenantId.HasValue))
                               select new PaymentCRUDViewModel
                               {
                                   Id = _Payments.Id,

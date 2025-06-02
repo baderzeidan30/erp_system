@@ -13,7 +13,7 @@ namespace BusinessERP.Models.SendEmailHistoryViewModel
         public string ReceiverEmail { get; set; }
         public string Result { get; set; }
         public string UserName { get; set; }
-
+        public Int64 TenantId { get; set; }
         public static implicit operator SendEmailHistoryCRUDViewModel(SendEmailHistory _SendEmailHistory)
         {
             return new SendEmailHistoryCRUDViewModel

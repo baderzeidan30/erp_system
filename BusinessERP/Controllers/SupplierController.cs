@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
+using static BusinessERP.Pages.MainMenu;
+using Supplier = BusinessERP.Models.Supplier;
 
 namespace BusinessERP.Controllers
 {
@@ -16,11 +18,13 @@ namespace BusinessERP.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly ICommon _iCommon;
+        private readonly IFunctional _iFunctional;
 
-        public SupplierController(ApplicationDbContext context, ICommon iCommon)
+        public SupplierController(ApplicationDbContext context, ICommon iCommon, IFunctional iFunctional)
         {
             _context = context;
             _iCommon = iCommon;
+            _iFunctional = iFunctional;
         }
 
         [Authorize(Roles = Pages.MainMenu.Supplier.RoleName)]
@@ -47,7 +51,9 @@ namespace BusinessERP.Controllers
                 int skip = start != null ? Convert.ToInt32(start) : 0;
                 int resultTotal = 0;
 
-                var _GetGridItem = GetGridItem();
+                var objUser = _iFunctional.GetSharedTenantData(User).Result;
+                Int64 LoginTenantId = objUser.TenantId ?? 0;
+                var _GetGridItem = GetGridItem(LoginTenantId);
                 //Sorting
                 if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnAscDesc)))
                 {
@@ -82,14 +88,15 @@ namespace BusinessERP.Controllers
 
         }
 
-        private IQueryable<SupplierCRUDViewModel> GetGridItem()
+        private IQueryable<SupplierCRUDViewModel> GetGridItem(Int64 tenantId)
         {
             try
             {
                 return (from _Supplier in _context.Supplier
-                        where _Supplier.Cancelled == false
-                        select new SupplierCRUDViewModel
-                        {
+                where _Supplier.Cancelled == false
+                && ((_Supplier.TenantId == tenantId && tenantId > 0) || (tenantId == 0 && !_Supplier.TenantId.HasValue))
+                select new SupplierCRUDViewModel
+                {
                             Id = _Supplier.Id,
                             Name = _Supplier.Name,
                             ContactPerson = _Supplier.ContactPerson,
